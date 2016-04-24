@@ -26,21 +26,20 @@
     <span class="navbar hidden"></span>
     
     <!-- Styled header -->
-    <header class="site-header z-depth-1">
+    <header class="site-header z-depth-0">
         <div class="top-line"></div>
-        
         <a class="add-change btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
     </header>
     
 
     <!-- Graph controls -->
-    <section class="site-section header-over bg-material z-depth-2">
-        <h1 class="section-title">
+    <section class="site-section header-over bg-material z-depth-1">
+        <h2 class="section-title">
             Модель IS-LM-BP
             <a href="#" class="section-collapse-btn waves-effect waves-light pull-right">
-                <i class="fa fa-arrow-up"></i>
+                <i class="material-icons">keyboard_arrow_up</i>
             </a>
-        </h1>
+        </h2>
 
         <div class=""> <!-- Collapse -->
 
@@ -49,7 +48,7 @@
                 <a href="#" class="btn btn-warning waves-effect waves-light">Открытая экономика</a>
             </div>
 
-            <div class=""> <!-- Collapse -->
+            <div class="hidden"> <!-- Collapse -->
                 <div class="text-center">
                     <a href="#" class="btn btn-default waves-effect waves-light">Плавающий курс</a>
                     <a href="#" class="btn btn-warning waves-effect waves-light">Фиксированный курс</a>
@@ -88,15 +87,152 @@
             </div>
 
         </div>
-
     </section>
+
+
+    <!-- Graphs -->
+    <section class="site-section z-depth-1">
+        <h2 class="section-title">Графики</h2>
+
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-xs-12 graph-demo"></div>
+            <div class="col-lg-4 col-md-4 col-xs-12 graph-demo"></div>
+            <div class="col-lg-4 col-md-4 col-xs-12 graph-demo"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-xs-12 graph-demo"></div>
+            <div class="col-lg-4 col-md-4 col-xs-12 graph-demo"></div>
+            <div class="col-lg-4 col-md-4 col-xs-12 graph-demo"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-xs-12 graph-demo"></div>
+            <div class="col-lg-4 col-md-4 col-xs-12 graph-demo"></div>
+            <div class="col-lg-4 col-md-4 col-xs-12 graph-demo"></div>
+        </div>
+    </section>
+
+
+    <!-- History -->
+    <section class="site-section z-depth-1">
+        <h2 class="section-title">История изменений</h2>
+
+        <div id="historyPanels">
+            <div class="panel panel-info panel-history">
+                <div class="panel-heading">
+                    <span class="panel-sort-toggle">
+                        <i class="fa fa-ellipsis-v"></i>
+                        <i class="fa fa-ellipsis-v"></i>
+                    </span>
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collapse1">Увеличение гос. закупок</a>
+                    </h4>
+                    <div class="panel-control">
+                        <a href="#" class="action-delete"><i class="fa fa-trash"></i></a>
+                    </div>
+                </div>
+                <div id="collapse1" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        Описание политики или шока.
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default panel-history">
+                <div class="panel-heading">
+                    <span class="panel-sort-toggle">
+                        <i class="fa fa-ellipsis-v"></i>
+                        <i class="fa fa-ellipsis-v"></i>
+                    </span>
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collapse2">Увеличение денежной массы.</a>
+                    </h4>
+                    <div class="panel-control">
+                        <a href="#" class="action-delete"><i class="fa fa-trash"></i></a>
+                    </div>
+                </div>
+                <div id="collapse2" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        Описание политики или шока.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="addChangeModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Шоки и политики</h4>
+                </div>
+                <div class="modal-body">
+                    
+                    <div class="panel panel-default panel-history">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#collapse1a">Увеличение гос. закупок</a>
+                            </h4>
+                            <div class="panel-control">
+                                <a href="#" class="action-add"><i class="fa fa-plus"></i></a>
+                            </div>
+                        </div>
+                        <div id="collapse1a" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                Описание политики или шока.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default panel-history">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#collapse2a">Увеличение денежной массы.</a>
+                            </h4>
+                            <div class="panel-control">
+                                <a href="#" class="action-add"><i class="fa fa-plus"></i></a>
+                            </div>
+                        </div>
+                        <div id="collapse2a" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                Описание политики или шока.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
       
 
     <!-- Page scripts -->
     <script type="text/javascript" src="plugins/material/js/jquery.min.js"></script>
+    <script type="text/javascript" src="plugins/jquery-ui.min.js"></script>
     <script type="text/javascript" src="plugins/material/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="plugins/material/js/mdb.js"></script>
     <script type="text/javascript" src="plugins/material/js/modules (optional)/buttons.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#historyPanels").sortable({
+                handle: ".panel-sort-toggle"
+            });
+            $("#historyPanels").disableSelection();
+
+            $(".add-change").on("click", function(e){
+                e.preventDefault();
+
+                $("#addChangeModal").modal();
+            });
+        });
+    </script>
 
 </body>
 </html>

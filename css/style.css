@@ -25,11 +25,30 @@ body{
 	text-align: center;
 	color: rgba(255, 255, 255, 0.95);
 }
+.section-collapse-btn i{
+	font-size: 36px;
+	line-height: 50px;
+}
 .section-collapse-btn:hover,
 .section-collapse-btn:active,
 .section-collapse-btn:focus,
 .section-collapse-btn:visited{
 	color: rgba(255, 255, 255, 0.95);
+}
+
+.graph-demo{
+	position: relative;
+	height: 300px;
+}
+.graph-demo::after{
+	position: absolute;
+	display: block;
+	content: "";
+	top: 4px;
+	left: 4px;
+	right: 4px;
+	bottom: 4px;
+	background-color: teal;
 }
 
 
@@ -69,6 +88,7 @@ body{
 	border-radius: 3px;
 	overflow: hidden;
 	padding: 25px 20px;
+	background-color: #fff;
 }
 .site-section.header-over{
 	margin-top: 60px;
@@ -82,9 +102,55 @@ body{
 
 .section-title{
 	font-family: "Roboto", sans-serif;
-	font-size: 36px;
-	color: #fff;
-	color: rgba(255, 255, 255, 0.95);
+	font-size: 32px;
 	font-weight: 400;
 	text-transform: none;
 }
+.site-section.bg-material .section-title{
+	color: rgba(255, 255, 255, 0.95);
+}
+.site-section.header-over .section-title{
+	font-size: 36px;
+}
+
+
+
+/* History panel styles */
+/*-----------------------------------------------------------*/
+.ui-sortable{
+	position: relative;
+}
+.panel-history{
+	margin-bottom: 10px;
+}
+.panel-history .panel-sort-toggle{
+	margin-right: 11px;
+	font-size: 16px;
+	float: left;
+	cursor: pointer;
+}
+.panel-history .panel-title{
+	display: inline-block;
+}
+.panel-history .panel-heading{
+	position: relative;
+	box-sizing: border-box;
+}
+.panel-history .panel-control{
+	position: absolute;
+	right: 0;
+	top: 0;
+	height: 42px;
+	display: table;
+	box-sizing: border-box;
+}
+.panel-history .action-delete,
+.panel-history .action-add{
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+	width: 36px;
+	font-size: 20px;
+}
+.panel-history .action-delete{ color: #F44336;  }
+.panel-history .action-add{ color: #03A9F4;  }
