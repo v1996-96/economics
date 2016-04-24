@@ -18,6 +18,8 @@
     <!-- Frameworks -->
     <link rel="stylesheet" href="plugins/material/css/bootstrap.min.css" />
     <link rel="stylesheet" href="plugins/material/css/mdb.min.css" />
+    <link rel="stylesheet" type="text/css" href="plugins/sweetalert/sweetalert.css" />
+    <link rel="stylesheet" type="text/css" href="plugins/sweetalert/themes/google/google.css" />
     
     <!-- Page styles -->
     <link rel="stylesheet" type="text/css" href="css/style.css">
@@ -36,48 +38,48 @@
     <section class="site-section header-over bg-material z-depth-1">
         <h2 class="section-title">
             Модель IS-LM-BP
-            <a href="#" class="section-collapse-btn waves-effect waves-light pull-right">
+            <a href="#paramsList" data-toggle="collapse" class="section-collapse-btn waves-effect waves-light pull-right">
                 <i class="material-icons">keyboard_arrow_up</i>
             </a>
         </h2>
 
-        <div class=""> <!-- Collapse -->
+        <div class="collapse in" id="paramsList"> <!-- Collapse -->
 
             <div class="text-center">
-                <a href="#" class="btn btn-default waves-effect waves-light">Закрытая экономика</a>
-                <a href="#" class="btn btn-warning waves-effect waves-light">Открытая экономика</a>
+                <a href="#" data-params="ecomonicsType" data-value="closed" class="btn btn-default waves-effect waves-light">Закрытая экономика</a>
+                <a href="#" data-params="ecomonicsType" data-value="opened" data-details="#openEconomicsParamsList" class="btn btn-default waves-effect waves-light">Открытая экономика</a>
             </div>
 
-            <div class="hidden"> <!-- Collapse -->
+            <div class="collapse" id="openEconomicsParamsList"> <!-- Collapse -->
                 <div class="text-center">
-                    <a href="#" class="btn btn-default waves-effect waves-light">Плавающий курс</a>
-                    <a href="#" class="btn btn-warning waves-effect waves-light">Фиксированный курс</a>
+                    <a href="#" data-params="exchangeRate" data-value="fluid" class="btn btn-default waves-effect waves-light">Плавающий курс</a>
+                    <a href="#" data-params="exchangeRate" data-value="fixed" class="btn btn-default waves-effect waves-light">Фиксированный курс</a>
                 </div>
 
                 <div class="text-center">
-                    <a href="#" class="btn btn-default waves-effect waves-light">Малая экономика</a>
-                    <a href="#" class="btn btn-warning waves-effect waves-light">Большая экономика</a>
+                    <a href="#" data-params="economicsSize" data-value="small" class="btn btn-default waves-effect waves-light">Малая экономика</a>
+                    <a href="#" data-params="economicsSize" data-value="big" class="btn btn-default waves-effect waves-light">Большая экономика</a>
                 </div>
 
                 <div class="text-center">
-                    <a href="#" class="btn btn-default waves-effect waves-light">Абсолютная моб-ость кап-ла</a>
-                    <a href="#" class="btn btn-warning waves-effect waves-light">Высокая моб-ость кап-ла</a>
+                    <a href="#" data-params="capitalMobility" data-value="absolute" class="btn btn-default waves-effect waves-light">Абсолютная моб-ость кап-ла</a>
+                    <a href="#" data-params="capitalMobility" data-value="high" class="btn btn-default waves-effect waves-light">Высокая моб-ость кап-ла</a>
                 </div>
 
                 <div class="text-center">
-                    <a href="#" class="btn btn-default waves-effect waves-light">Низкая моб-ость кап-ла</a>
-                    <a href="#" class="btn btn-default waves-effect waves-light">Нулевая моб-ость кап-ла</a>
+                    <a href="#" data-params="capitalMobility" data-value="low" class="btn btn-default waves-effect waves-light">Низкая моб-ость кап-ла</a>
+                    <a href="#" data-params="capitalMobility" data-value="null" class="btn btn-default waves-effect waves-light">Нулевая моб-ость кап-ла</a>
                 </div>
-            </div>
-
-            <div class="text-center">
-                <a href="#" class="btn btn-default waves-effect waves-light">Жесткие цены</a>
-                <a href="#" class="btn btn-warning waves-effect waves-light">Гибкие цены</a>
             </div>
 
             <div class="text-center">
-                <a href="#" class="btn btn-default waves-effect waves-light">Краткосрочный период</a>
-                <a href="#" class="btn btn-warning waves-effect waves-light">Долгосрочный период</a>
+                <a href="#" data-params="prices" data-value="fixed" class="btn btn-default waves-effect waves-light">Жесткие цены</a>
+                <a href="#" data-params="prices" data-value="fluid" class="btn btn-default waves-effect waves-light">Гибкие цены</a>
+            </div>
+
+            <div class="text-center">
+                <a href="#" data-params="period" data-value="short_run" class="btn btn-default waves-effect waves-light">Краткосрочный период</a>
+                <a href="#" data-params="period" data-value="long_run" class="btn btn-default waves-effect waves-light">Долгосрочный период</a>
             </div>
 
             <div class="row">
@@ -94,22 +96,24 @@
     <section class="site-section z-depth-1">
         <h2 class="section-title">Графики</h2>
 
-        <div class="row">
-            <div class="col-lg-4 col-md-4 col-xs-12 graph-demo"></div>
-            <div class="col-lg-4 col-md-4 col-xs-12 graph-demo"></div>
-            <div class="col-lg-4 col-md-4 col-xs-12 graph-demo"></div>
-        </div>
+        <div id="graphsArea">
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-xs-12 graph-demo"></div>
+                <div class="col-lg-4 col-md-4 col-xs-12 graph-demo"></div>
+                <div class="col-lg-4 col-md-4 col-xs-12 graph-demo"></div>
+            </div>
 
-        <div class="row">
-            <div class="col-lg-4 col-md-4 col-xs-12 graph-demo"></div>
-            <div class="col-lg-4 col-md-4 col-xs-12 graph-demo"></div>
-            <div class="col-lg-4 col-md-4 col-xs-12 graph-demo"></div>
-        </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-xs-12 graph-demo"></div>
+                <div class="col-lg-4 col-md-4 col-xs-12 graph-demo"></div>
+                <div class="col-lg-4 col-md-4 col-xs-12 graph-demo"></div>
+            </div>
 
-        <div class="row">
-            <div class="col-lg-4 col-md-4 col-xs-12 graph-demo"></div>
-            <div class="col-lg-4 col-md-4 col-xs-12 graph-demo"></div>
-            <div class="col-lg-4 col-md-4 col-xs-12 graph-demo"></div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-xs-12 graph-demo"></div>
+                <div class="col-lg-4 col-md-4 col-xs-12 graph-demo"></div>
+                <div class="col-lg-4 col-md-4 col-xs-12 graph-demo"></div>
+            </div>
         </div>
     </section>
 
@@ -215,24 +219,14 @@
     <!-- Page scripts -->
     <script type="text/javascript" src="plugins/material/js/jquery.min.js"></script>
     <script type="text/javascript" src="plugins/jquery-ui.min.js"></script>
+
     <script type="text/javascript" src="plugins/material/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="plugins/material/js/mdb.js"></script>
     <script type="text/javascript" src="plugins/material/js/modules (optional)/buttons.js"></script>
 
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $("#historyPanels").sortable({
-                handle: ".panel-sort-toggle"
-            });
-            $("#historyPanels").disableSelection();
+    <script type="text/javascript" src="plugins/sweetalert/sweetalert.min.js"></script>
 
-            $(".add-change").on("click", function(e){
-                e.preventDefault();
-
-                $("#addChangeModal").modal();
-            });
-        });
-    </script>
+    <script type="text/javascript" src="js/App.js"></script>
 
 </body>
 </html>
