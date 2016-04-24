@@ -3,37 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <title>Модель IS-LM-BP</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+    <meta name="viewport" content="width=1280">
 
+    <!-- Fix browser bugs -->
     <link rel="stylesheet" type="text/css" href="css/normalize.css" media="screen">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
+    <!-- Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900&subset=latin,cyrillic-ext,cyrillic' rel='stylesheet' type='text/css'>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet" type='text/css' />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     
+    <!-- Frameworks -->
     <link rel="stylesheet" href="plugins/material/css/bootstrap.min.css" />
     <link rel="stylesheet" href="plugins/material/css/mdb.min.css" />
     
+    <!-- Page styles -->
     <link rel="stylesheet" type="text/css" href="css/style.css">
-    <!-- <link rel="stylesheet" href="css/normalize.css" /> -->
 </head>
 <body>
+    <span class="navbar hidden"></span>
     
     <!-- Styled header -->
     <header class="site-header z-depth-1">
         <div class="top-line"></div>
         
-        <a href="#" class="add-change"></a>
+        <a class="add-change btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
     </header>
     
 
     <!-- Graph controls -->
     <section class="site-section header-over bg-material z-depth-2">
-        
+        <h1 class="section-title">
+            Модель IS-LM-BP
+            <a href="#" class="section-collapse-btn waves-effect waves-light pull-right">
+                <i class="fa fa-arrow-up"></i>
+            </a>
+        </h1>
+
+        <div class=""> <!-- Collapse -->
+
+            <div class="text-center">
+                <a href="#" class="btn btn-default waves-effect waves-light">Закрытая экономика</a>
+                <a href="#" class="btn btn-warning waves-effect waves-light">Открытая экономика</a>
+            </div>
+
+            <div class=""> <!-- Collapse -->
+                <div class="text-center">
+                    <a href="#" class="btn btn-default waves-effect waves-light">Плавающий курс</a>
+                    <a href="#" class="btn btn-warning waves-effect waves-light">Фиксированный курс</a>
+                </div>
+
+                <div class="text-center">
+                    <a href="#" class="btn btn-default waves-effect waves-light">Малая экономика</a>
+                    <a href="#" class="btn btn-warning waves-effect waves-light">Большая экономика</a>
+                </div>
+
+                <div class="text-center">
+                    <a href="#" class="btn btn-default waves-effect waves-light">Абсолютная моб-ость кап-ла</a>
+                    <a href="#" class="btn btn-warning waves-effect waves-light">Высокая моб-ость кап-ла</a>
+                </div>
+
+                <div class="text-center">
+                    <a href="#" class="btn btn-default waves-effect waves-light">Низкая моб-ость кап-ла</a>
+                    <a href="#" class="btn btn-default waves-effect waves-light">Нулевая моб-ость кап-ла</a>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <a href="#" class="btn btn-default waves-effect waves-light">Жесткие цены</a>
+                <a href="#" class="btn btn-warning waves-effect waves-light">Гибкие цены</a>
+            </div>
+
+            <div class="text-center">
+                <a href="#" class="btn btn-default waves-effect waves-light">Краткосрочный период</a>
+                <a href="#" class="btn btn-warning waves-effect waves-light">Долгосрочный период</a>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-8 col-xs-10 block-center text-center build-graph-block">
+                    <a href="#" class="btn btn-success btn-block waves-effect waves-light">Построить</a>
+                </div>
+            </div>
+
+        </div>
+
     </section>
       
 
-
+    <!-- Page scripts -->
     <script type="text/javascript" src="plugins/material/js/jquery.min.js"></script>
     <script type="text/javascript" src="plugins/material/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="plugins/material/js/mdb.min.js"></script>
+    <script type="text/javascript" src="plugins/material/js/mdb.js"></script>
     <script type="text/javascript" src="plugins/material/js/modules (optional)/buttons.js"></script>
 
 </body>

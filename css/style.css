@@ -3,10 +3,41 @@
  * 04/2016
  */
 
+/* Common & elements styles */
+body{ 
+	background: #eeeeee; 
+}
+.block-center{
+	float: none !important;
+	margin: 0 auto;
+}
+.build-graph-block{
+	margin-top: 15px;
+	margin-bottom: 5px;
+}
+.section-collapse-btn{
+	width: 50px;
+	height: 50px;
+	border-radius: 50px;
+	line-height: 50px;
+	display: block;
+	font-size: 29px;
+	text-align: center;
+	color: rgba(255, 255, 255, 0.95);
+}
+.section-collapse-btn:hover,
+.section-collapse-btn:active,
+.section-collapse-btn:focus,
+.section-collapse-btn:visited{
+	color: rgba(255, 255, 255, 0.95);
+}
+
+
 /* Header styles */
 /*-----------------------------------------------------------*/
 .site-header{
-	position: relative;
+	position: fixed;
+	top: 0;
 	height: 160px;
 	width: 100%;
 	background: #414cb7;
@@ -19,23 +50,41 @@
 	height: 32px;
 	background: #3239a1;
 }
+.add-change{
+	position: absolute;
+	top: 122px;
+	left: 50%;
+	margin-left: 550px;
+}
+
 
 /* Section styles */
 /*-----------------------------------------------------------*/
 .site-section{
 	position: relative;
-	width: 1020px;
-	min-height: 200px;
+	width: 980px;
 	margin: 0 auto;
+	margin-bottom: 50px;
 	background: #fff;
 	border-radius: 3px;
+	overflow: hidden;
+	padding: 25px 20px;
 }
 .site-section.header-over{
-	margin-top: -100px;
+	margin-top: 60px;
 }
 .site-section.bg-material{
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
-	background-image: url(../img/bg-5.jpg);
+	background-image: url(../img/bg.png);
+}
+
+.section-title{
+	font-family: "Roboto", sans-serif;
+	font-size: 36px;
+	color: #fff;
+	color: rgba(255, 255, 255, 0.95);
+	font-weight: 400;
+	text-transform: none;
 }
