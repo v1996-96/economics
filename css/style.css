@@ -51,6 +51,8 @@ body{
 	background-color: teal;
 }
 
+.column{ min-height: 2px; }
+
 
 /* Header styles */
 /*-----------------------------------------------------------*/

@@ -10,6 +10,7 @@ var App = (function ($) {
 	/* Useful JS stuff */
 	/*-----------------------------------------------------------------*/
 	this.useful = {
+		/* Get object keys */
 		getKeys : function(obj){
 			var r = []
 		    for (var k in obj) {
@@ -20,6 +21,7 @@ var App = (function ($) {
 		    return r
 		},
 
+		/* Check is needle in haystack or not */
 		inArray : function(needle, haystack, strict){
 			var found = false, key, strict = !!strict;
 
@@ -31,6 +33,11 @@ var App = (function ($) {
 			}
 
 			return found;
+		},
+
+		/* Check element existance */
+		exists : function(selector){
+			return !!$(selector).length;
 		}
 	};
 
@@ -109,6 +116,97 @@ var App = (function ($) {
 		}
 	},
 
+	this.graphs = [];
+
+	this.graphsFactory = {
+		render : function () {
+			// Get count of columns and rows to render
+			var countRows = 0, countCols = 0;
+			for (var i = 0; i < parent.graphs.length; i++) {
+				if (countRows < parent.graphs[i].position.row+1) 
+					countRows = parent.graphs[i].position.row+1;
+
+				if (countCols < parent.graphs[i].position.column+1 && 
+					parent.graphs[i].position.column+1 <= 4) 
+					countCols = parent.graphs[i].position.column+1;
+			}
+
+			if(countRows < 0 || countCols < 0 || countCols > 4)
+				parent.message.show("Ошибка", "При построении произошла ошибка", "error");
+			
+			// Render graph area grid			
+			parent.interface.dom.renderGraphGrid( countRows, countCols );
+			
+			// Render graphs
+			for (var i = 0; i < parent.graphs.length; i++) {
+				parent.interface.dom.renderGraph( 
+					parent.graphs[i].position.row,
+					parent.graphs[i].position.column,
+					parent.graphs[i].id
+					);
+			}
+
+			// Run plugin for each graph
+			for (var i = 0; i < parent.graphs.length; i++) {
+				this.runPlugin( parent.graphs[i] );
+			}
+		},
+
+		runPlugin : function (graph) {
+			var selector = "#" + graph.id;
+
+			if (!parent.useful.exists( selector )) 
+				return false;
+
+			$( selector ).highcharts({
+		        title: {
+		            text: 'Monthly Average Temperature',
+		            x: -20 //center
+		        },
+		        subtitle: {
+		            text: 'Source: WorldClimate.com',
+		            x: -20
+		        },
+		        xAxis: {
+		            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+		                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+		        },
+		        yAxis: {
+		            title: {
+		                text: 'Temperature (°C)'
+		            },
+		            plotLines: [{
+		                value: 0,
+		                width: 1,
+		                color: '#808080'
+		            }]
+		        },
+		        tooltip: {
+		            valueSuffix: '°C'
+		        },
+		        legend: {
+		            layout: 'vertical',
+		            align: 'right',
+		            verticalAlign: 'middle',
+		            borderWidth: 0
+		        },
+		        series: [{
+		            name: 'Tokyo',
+		            data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+		        }, {
+		            name: 'New York',
+		            data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
+		        }, {
+		            name: 'Berlin',
+		            data: [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0]
+		        }, {
+		            name: 'London',
+		            data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+		        }]
+		    });
+		}
+	};
+
 	
 	/* Application functions */
 	/*-----------------------------------------------------------------*/
@@ -129,7 +227,37 @@ var App = (function ($) {
 
 		/* Manipulation with DOM */
 		dom : {
+			graphHeight : 300,
 
+			renderGraphGrid : function (rows, columns) {
+				$("#graphsArea").html("");
+
+				if (rows < columns) return false;
+				var columnIndex = Math.floor( 12 / columns );
+
+				// Create rows
+				for (var i = 0; i < rows; i++) 
+					$("<div></div>").addClass("row").appendTo("#graphsArea");
+				
+				// Create columns
+				$("#graphsArea .row").each(function(n ,el){
+					for (var i = 0; i < columns; i++) 
+						$("<div></div>")
+							.css("position", "relative")
+							.addClass("col-lg-"+columnIndex+" col-md-"+columnIndex+" col-xs-12 column")
+							.appendTo(el);
+				});
+			},
+
+			renderGraph : function (row, column, id) {
+				var that = this;
+				var parent = $("#graphsArea .row").eq(row).find(".column").eq(column);
+
+				$("<div></div>")
+					.attr("id", id)
+					.css({ width : parent.width(), height : that.graphHeight })
+					.appendTo( parent );
+			}
 		},
 
 
@@ -139,12 +267,14 @@ var App = (function ($) {
 
 			/* Show sections */
 			showSection : function(section){
-				$(section).removeClass("hidden");
-				TweenLite.fromTo(
-					section, 1, 
-					{ opacity: 0, y: 60 },
-					{ opacity: 1, y: 0, ease: Power4.easeInOut }
-				);
+				if ($(section).hasClass("hidden")) {
+					$(section).removeClass("hidden");
+					TweenLite.fromTo(
+						section, 1, 
+						{ opacity: 0, y: 60 },
+						{ opacity: 1, y: 0, ease: Power4.easeInOut }
+					);
+				}				
 			},
 
 			/* Enable sorting in history list */
@@ -237,13 +367,17 @@ var App = (function ($) {
 
 						$("#paramsList").collapse("hide");
 
-						TweenLite.delayedCall(0.28, function(){
-							interface.actions.showSection( $("#graphsSection") );
-							interface.actions.showSection( $("#historySection") );
-						});
+						var delay = 0;
+						if ($("#graphsSection").hasClass("hidden")) {
+							delay = 0.3;
+							TweenLite.delayedCall(0.28, function(){
+								interface.actions.showSection( $("#graphsSection") );
+							});
+						}
 
-						TweenLite.delayedCall(1.3, function(){
+						TweenLite.delayedCall((1 + delay), function(){
 							interface.actions.scrollTo( $("#graphsSection"), 15 );
+							parent.graphsFactory.render();
 						});
 
 					} catch(e){
@@ -274,6 +408,13 @@ var App = (function ($) {
 		message : {
 			show : function (title, text, type) {
 				return parent.message.show(title, text, type);
+			}
+		},
+
+		graph : {
+			add : function(graph) {
+				if (graph instanceof Graph)
+					parent.graphs.push(graph);
 			}
 		}
 	};
