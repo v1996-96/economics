@@ -18,10 +18,10 @@ islmbp.yAxis.title.text = "r";
 var is = new Line();
 	is.id = "is";
 	is.params = {
-		multiplier : 10
+		param1 : 1
 	};
 	is.equation = function(x){
-		return this.multiplier * x;
+		return 10 * x;
 	};
 	is.settings = {
 		name: "IS",
@@ -33,6 +33,26 @@ var is = new Line();
 	};
 
 	islmbp.linesFactory.add( is );
+
+
+var lm = new Line();
+	lm.id = "lm";
+	lm.params = {
+		multiplier : -10
+	};
+	lm.equation = function(x){
+		return -8 * x + 100;
+	};
+	lm.settings = {
+		name: "LM",
+		type: "line",
+		marker: {
+			enabled: false
+		},
+		color: "green"
+	};
+
+	islmbp.linesFactory.add( lm );
 
 
 

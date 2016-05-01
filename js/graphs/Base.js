@@ -1,5 +1,5 @@
 /**
- * Graph class
+ * Graphs base classes
  * 04/2016
  */
 
@@ -9,6 +9,7 @@ function Line() {
 	this.id = null;
 
 	// Line static parameters
+	this.defaultParams = {};
 	this.params = {};
 
 	// Line equation

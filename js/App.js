@@ -157,12 +157,81 @@ var App = (function ($) {
 		}
 	};
 
+	this.modules = [];
+	this.modulesHistory = [];
+
+	this.modulesFactory = {
+		renderList : function() {
+			parent.interface.dom.renderModuleList();
+		},
+
+		renderHistory : function() {
+			parent.interface.dom.renderHistory();
+			this.activateByHistory();
+		},
+
+		activateByHistory : function() {
+			for (var i = 0; i < parent.modulesHistory.length; i++) {
+				parent.modulesHistory[i].action.call( parent.modulesHistory[i] );
+			}
+		},
+
+		addToHistory : function(id) {
+			if ($("#graphsSection").hasClass("hidden")) {
+				parent.message.show("Ошибка", "Графики не были построены", "error");
+				return;
+			}
+
+			for (var i = 0; i < parent.modules.length; i++) {
+				if (parent.modules[i].id == id) {
+					parent.modulesHistory.push( parent.modules[i] );
+				}
+			}
+
+			$("#addChangeModal").modal("hide");
+
+			var that = this;
+			if ($("#historySection").hasClass("hidden")) {
+				parent.interface.actions.showSection( $("#historySection") );
+				TweenLite.delayedCall(0.3, function(){
+					that.renderHistory();
+				});
+			} else {
+				this.renderHistory();
+			}
+		},
+
+		removeFromHistory : function(id, order) {
+			for (var i = 0; i < parent.modulesHistory.length; i++) {
+				if (parent.modulesHistory[i].id == id && order == i) {
+					parent.modulesHistory.splice(i, 1);
+				}
+			}
+
+			this.renderHistory();
+		},
+
+		reorderHistory : function(newOrder) {
+			var newHistory = [];
+
+			for (var i = 0; i < newOrder.length; i++) {
+				newHistory.push( parent.modulesHistory[ newOrder[i] ] );
+			}
+
+			parent.modulesHistory = newHistory;
+
+			this.renderHistory();
+		}
+	};
+
 	
 	/* Application functions */
 	/*-----------------------------------------------------------------*/
 	this.interface = {
 		/* Prepare window for first use */
 		prepare : function(){
+			parent.modulesFactory.renderList();
+
 			this.actions.interface = this;
 			this.actions.showSection( $("#paramsSection") );
 			this.actions.enableSorting();
@@ -177,7 +246,7 @@ var App = (function ($) {
 
 		/* Manipulation with DOM */
 		dom : {
-			graphHeight : 500,
+			graphHeight : 400,
 
 			renderGraphGrid : function (rows, columns) {
 				$("#graphsArea").html("");
@@ -207,6 +276,110 @@ var App = (function ($) {
 					.attr("id", id)
 					.css({ width : parent.width(), height : that.graphHeight })
 					.appendTo( parent );
+			},
+
+			renderHistory : function () {
+				$("#historyPanels").html("");
+
+				for (var i = 0; i < parent.modulesHistory.length; i++) {
+					this.renderHistoryModule( parent.modulesHistory[i], i );
+				}
+			},
+
+			renderModuleList : function () {
+				$("#modulesList").html("");
+
+				for (var i = 0; i < parent.modules.length; i++) {
+					this.renderModule( parent.modules[i] );
+				}
+			},
+
+			renderHistoryModule : function (module, order) {
+				var $panel = $("<div></div>")
+								.attr({
+									"data-id" : module.id,
+									"data-order" : order
+								})
+								.addClass('panel panel-default panel-history');
+
+				var $heading = $("<div></div>").addClass('panel-heading').appendTo( $panel );
+
+				$("<span></span>")
+					.addClass("panel-sort-toggle")
+					.append('<i class="fa fa-ellipsis-v"></i>')
+					.append('<i class="fa fa-ellipsis-v"></i>')
+					.appendTo( $heading );
+
+				var $title = $("<h4></h4>").addClass('panel-title').appendTo( $heading );
+				$("<a></a>")
+					.attr({
+						"data-toggle" : "collapse",
+						"href" : "#histDesc_" + module.id + "_" + order
+					})
+					.text( module.title )
+					.appendTo( $title );
+
+				var $control = $("<div></div>").addClass("panel-control").appendTo( $heading );
+				$("<a></a>").addClass('action-delete').html('<i class="fa fa-trash"></i>')
+					.attr({
+						"href" : "#",
+						"data-id" : module.id,
+						"data-order" : order
+					})
+					.on("click", function(e){
+						e.preventDefault();
+						parent.modulesFactory.removeFromHistory( $(this).attr("data-id"), $(this).attr("data-order") );
+					})
+					.appendTo( $control );
+
+				var $collapse = $("<div></div>")
+									.attr("id", "histDesc_" + module.id + "_" + order)
+									.addClass("panel-collapse collapse")
+									.appendTo($panel);
+				$("<div></div>")
+					.addClass('panel-body')
+					.html( module.description )
+					.appendTo($collapse);
+
+				$("#historyPanels").append( $panel );
+			},
+
+			renderModule : function (module) {
+				var $panel = $("<div></div>").addClass('panel panel-default panel-history');
+
+				var $heading = $("<div></div>").addClass('panel-heading').appendTo( $panel );
+
+				var $title = $("<h4></h4>").addClass('panel-title').appendTo( $heading );
+				$("<a></a>")
+					.attr({
+						"data-toggle" : "collapse",
+						"href" : "#moduleDesc_" + module.id
+					})
+					.text( module.title )
+					.appendTo( $title );
+
+				var $control = $("<div></div>").addClass("panel-control").appendTo( $heading );
+				$("<a></a>").addClass('action-add').html('<i class="fa fa-plus"></i>')
+					.attr({
+						"href" : "#",
+						"data-id" : module.id
+					})
+					.on("click", function(e){
+						e.preventDefault();
+						parent.modulesFactory.addToHistory( $(this).attr("data-id") );
+					})
+					.appendTo( $control );
+
+				var $collapse = $("<div></div>")
+									.attr("id", "moduleDesc_" + module.id)
+									.addClass("panel-collapse collapse")
+									.appendTo($panel);
+				$("<div></div>")
+					.addClass('panel-body')
+					.html( module.description )
+					.appendTo($collapse);
+
+				$("#modulesList").append( $panel );
 			}
 		},
 
@@ -230,7 +403,15 @@ var App = (function ($) {
 			/* Enable sorting in history list */
 			enableSorting : function(){
 				$("#historyPanels").sortable({
-	                handle: ".panel-sort-toggle"
+	                handle: ".panel-sort-toggle",
+	                stop: function(event, ui) {
+	                	var newOrder = [];
+	                	$("#historyPanels .panel").each(function(n, el){
+	                		newOrder.push( parseInt($(el).attr("data-order")) );
+	                	});
+
+	                	parent.modulesFactory.reorderHistory( newOrder );
+	                }
 	            });
 	            $("#historyPanels").disableSelection();
 			},
@@ -365,6 +546,41 @@ var App = (function ($) {
 			add : function(graph) {
 				if (graph instanceof Graph)
 					parent.graphs.push(graph);
+			},
+
+			get : function(id) {
+				for (var i = 0; i < parent.graphs.length; i++) {
+					if (parent.graphs[i].id == id) {
+						return parent.graphs[i];
+					}
+				}
+
+				return null;
+			},
+
+			getAll : function() {
+				return parent.graphs;
+			}
+		},
+
+		module : {
+			add : function(module) {
+				if (module instanceof Module) 
+					parent.modules.push(module);
+			},
+
+			get : function(id) {
+				for (var i = 0; i < parent.modules.length; i++) {
+					if (parent.modules[i].id == id) {
+						return parent.modules[i];
+					}
+				}
+
+				return null;
+			},
+
+			getAll : function() {
+				return parent.modules;
 			}
 		}
 	};
