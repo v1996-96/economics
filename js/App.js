@@ -177,12 +177,12 @@ var App = (function ($) {
 
 		/* Manipulation with DOM */
 		dom : {
-			graphHeight : 400,
+			graphHeight : 500,
 
 			renderGraphGrid : function (rows, columns) {
 				$("#graphsArea").html("");
 
-				if (rows < columns) return false;
+				if (columns <= 0) return false;
 				var columnIndex = Math.floor( 12 / columns );
 
 				// Create rows

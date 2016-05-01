@@ -3,7 +3,6 @@
  * 04/2016
  */
 
-// Create graph
 var islmbp = new Graph();
 
 islmbp.id = "islmbp";
@@ -11,31 +10,32 @@ islmbp.id = "islmbp";
 islmbp.position.row = 0;
 islmbp.position.column = 0;
 
-var axisData = islmbp.calculate.axisData( 0, 10, 0.1 );
+islmbp.title.text = "IS-LM-BP";
+islmbp.xAxis.title.text = "Y";
+islmbp.yAxis.title.text = "r";
 
 
-var dataset1 = islmbp.calculate.dataset( function(x){ return 40*x - 800; }, axisData );
-var seriesData1 = islmbp.calculate.seriesData( axisData, dataset1 );
-islmbp.addLine( {
-	name: "my_line",
-	type: "line",
-	marker: {
-		enabled: false
-	},
-	data: seriesData1
-} );
+var is = new Line();
+	is.id = "is";
+	is.params = {
+		multiplier : 10
+	};
+	is.equation = function(x){
+		return this.multiplier * x;
+	};
+	is.settings = {
+		name: "IS",
+		type: "line",
+		marker: {
+			enabled: false
+		},
+		color: "red"
+	};
 
-var dataset2 = islmbp.calculate.dataset( function(x){ return -40*x + 250; }, axisData );
-var seriesData2 = islmbp.calculate.seriesData( axisData, dataset2 );
-islmbp.addLine( {
-	name: "my_line",
-	type: "line",
-	marker: {
-		enabled: false
-	},
-	data: seriesData2
-} );
+	islmbp.linesFactory.add( is );
 
 
-// Add graph to graph list
+
+// Initialize graph
+islmbp.linesFactory.convertAll();
 App.graph.add( islmbp );
