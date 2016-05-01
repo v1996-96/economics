@@ -146,6 +146,10 @@ var App = (function ($) {
 					);
 			}
 
+			this.run();
+		},
+
+		run : function() {
 			// Run plugin for each graph
 			for (var i = 0; i < parent.graphs.length; i++) {
 				var selector = "#" + parent.graphs[i].id;
@@ -174,6 +178,8 @@ var App = (function ($) {
 			for (var i = 0; i < parent.modulesHistory.length; i++) {
 				parent.modulesHistory[i].action.call( parent.modulesHistory[i] );
 			}
+
+			parent.graphsFactory.run();
 		},
 
 		addToHistory : function(id) {
