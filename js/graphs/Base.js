@@ -10,9 +10,11 @@ function Line() {
 
 	this.id = null;
 
+
 	// Line static parameters
 	this.defaultParams = {};
 	this.params = {};
+
 
 	// Line equation
 	this.equation = function (x) { 
@@ -22,10 +24,16 @@ function Line() {
 		return x; 
 	};
 
-	// Plot settings
+
+	// Plot settings (series options)
 	this.settings = {};
 
-	// Clone line object
+
+	/**
+	 * Make copy of that object
+	 * @param  {Line} lineObj Other object. Defaults to that object.
+	 * @return {Line}         Cloned object
+	 */
 	this.copy = function(lineObj) {
 		var lineObj = lineObj || parent;
 
@@ -36,11 +44,15 @@ function Line() {
 		} else return null;
 	}
 
-	// Rollback parameters to initial state
+	
+	/**
+	 * Rollback parameters to initial state (defaultParams)
+	 */
 	this.rollback = function() {
 		this.params = $.extend(true, {}, this.defaultParams);
 	}
 }
+
 
 
 /* Graph base class */
@@ -131,13 +143,16 @@ function Graph() {
 	/*-----------------------------------------------------------------*/
 	var parent = this;
 
-	this.rollback = function() {
-
-	};
-
-
+	/* Series data calculator */
 	this.calculate = {
-		/* Calculates dataset for x axis */
+
+		/**
+		 * Calculates dataset for x axis
+		 * @param  {int} min      
+		 * @param  {int} max      
+		 * @param  {float} interval 
+		 * @return {array}          
+		 */
 		axisData : function( min, max, interval ){
 			var min = min || parent.seriesSettings.min;
 			var max = max || parent.seriesSettings.max;
@@ -149,7 +164,15 @@ function Graph() {
 			return data;
 		},
 
-		/* Calculates dataset for y axis */
+
+
+		/**
+		 * Calculates dataset for y axis
+		 * @param  {function} equation    
+		 * @param  {array} axisData    
+		 * @param  {object} equationObj As this value for equation function
+		 * @return {array}             
+		 */
 		dataset : function( equation, axisData, equationObj ){
 			var equationObj = equationObj || window;
 
@@ -160,7 +183,14 @@ function Graph() {
 			return dataset;
 		},
 
-		/* Calculates series data (x combined with y) */
+
+
+		/**
+		 * Calculates series data (x combined with y)
+		 * @param  {array} axisData 
+		 * @param  {array} dataset  
+		 * @return {array}          
+		 */
 		seriesData : function( axisData, dataset ){
 			var series = Highcharts.map(dataset, function (val, j) {
                 return [axisData[j], val];
@@ -169,7 +199,17 @@ function Graph() {
             return series;
 		},
 
-		/* Calculates all required info for graph */
+
+
+		/**
+		 * Calculates all required info for graph
+		 * @param  {function} equation    
+		 * @param  {int} min         
+		 * @param  {int} max         
+		 * @param  {float} interval    
+		 * @param  {object} equationObj 
+		 * @return {array}             
+		 */
 		seriesFullData : function( equation, min, max, interval, equationObj ){
 			var equationObj = equationObj || window;
 			var equation = equation || function(x){ return x; };
@@ -186,7 +226,13 @@ function Graph() {
             return series;
 		},
 
-		/* Clculates series for Line instance */
+
+
+		/**
+		 * Calculates series for Line instance
+		 * @param  {Line} line 
+		 * @return {array}      
+		 */
 		seriesForLine : function( line ){
 			var min = parent.seriesSettings.min;
 			var max = parent.seriesSettings.max;
@@ -197,23 +243,46 @@ function Graph() {
 	};
 
 
+	/* Series methods */
 	this.seriesFactory = {
+
+		/**
+		 * Add new series
+		 * @param {array} seriesData 
+		 */
 		add : function( seriesData ){
 			parent.series.push(seriesData);
 		},
 
+
+
+		/**
+		 * Delete all series data
+		 */
 		empty : function(){
 			parent.series = [];
 		}
 	};
 
 
+	/* Lines methods */
 	this.linesFactory = {
+
+		/**
+		 * Add new line
+		 * @param {Line} lineData 
+		 */
 		add : function( lineData ){
 			if (lineData instanceof Line) 
 				parent.lines.push(lineData);
 		},
 
+
+
+		/**
+		 * Remove specified line
+		 * @param  {string} lineId Line id
+		 */
 		remove : function( lineId ){
 			for (var i = 0; i < parent.lines.length; i++) {
 				if (parent.lines[i].id == lineId) {
@@ -223,10 +292,22 @@ function Graph() {
 			}
 		},
 
+
+
+		/**
+		 * Delete all lines
+		 */
 		empty : function(){
 			parent.lines = [];
 		},
 
+
+
+		/**
+		 * Get line by id 
+		 * @param  {strinf} lineId 
+		 * @return {Line}|{null}
+		 */
 		get : function( lineId ){
 			for (var i = 0; i < parent.lines.length; i++) {
 				if (parent.lines[i].id == lineId) {
@@ -237,6 +318,12 @@ function Graph() {
 			return null;
 		},
 
+
+
+		/**
+		 * Convert line abstracts to series data and add data to series list
+		 * @param  {Line} line Line object
+		 */
 		convert : function( line ){
 			var seriesData = parent.calculate.seriesForLine( line );
 
@@ -247,6 +334,12 @@ function Graph() {
 			parent.seriesFactory.add( series );
 		},
 
+
+
+		/**
+		 * Convert Line by id
+		 * @param  {string} lineId 
+		 */
 		convertById : function( lineId ){
 			var line = this.get(lineId);
 			if (line == null) return;
@@ -254,6 +347,11 @@ function Graph() {
 			this.convert( line );
 		},
 
+
+
+		/**
+		 * Convert all lines to series
+		 */
 		convertAll : function(){
 			parent.seriesFactory.empty();
 
@@ -262,7 +360,14 @@ function Graph() {
 			}
 		},
 
+
+
+		/**
+		 * Remove all supporting lines
+		 */
 		clearSupporting : function() {
+			if (parent.defaultLines.length == 0) return;
+
 			var newLinesList = [];
 
 			for (var i = 0; i < parent.lines.length; i++) {
@@ -280,6 +385,11 @@ function Graph() {
 			parent.lines = newLinesList;
 		},
 
+
+
+		/**
+		 * Rollback all lines on graph
+		 */
 		rollbackAll : function() {
 			for (var i = 0; i < parent.lines.length; i++) {
 				parent.lines[i].rollback();

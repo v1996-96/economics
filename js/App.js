@@ -10,18 +10,28 @@ var App = (function ($) {
 	/* Useful JS stuff */
 	/*-----------------------------------------------------------------*/
 	this.useful = {
-		/* Get object keys */
+		/**
+		 * Get object keys
+		 * @param  {object} obj 
+		 * @return {array} 
+		 */
 		getKeys : function(obj){
-			var r = []
+			var r = [];
 		    for (var k in obj) {
 		        if (!obj.hasOwnProperty(k)) 
-		            continue
-		        r.push(k)
+		            continue;
+		        r.push(k);
 		    }
-		    return r
+		    return r;
 		},
 
-		/* Check is needle in haystack or not */
+		/**
+		 * Check is needle in haystack or not
+		 * @param  {object} needle   
+		 * @param  {array} haystack 
+		 * @param  {bool} strict   
+		 * @return {bool}          
+		 */
 		inArray : function(needle, haystack, strict){
 			var found = false, key, strict = !!strict;
 
@@ -35,7 +45,11 @@ var App = (function ($) {
 			return found;
 		},
 
-		/* Check element existance */
+		/**
+		 * Check DOM element existance
+		 * @param  {string} selector 
+		 * @return {bool}          
+		 */
 		exists : function(selector){
 			return !!$(selector).length;
 		}
@@ -62,6 +76,7 @@ var App = (function ($) {
 
 	/* Application parameters */
 	/*-----------------------------------------------------------------*/
+	/* List of parameters */
 	this.params = {
 		ecomonicsType : null, 	// opened | closed
 		exchangeRate : null,  	// fixed | fluid
@@ -71,7 +86,14 @@ var App = (function ($) {
 		period : null  			// long_run | short_run
 	};
 
+	/* Parameters factory */
 	this.paramsFactory = {
+
+		/**
+		 * Basic aplication parameter rules
+		 * @param  {object} params Parameter list
+		 * @return {bool}          true on success
+		 */
 		checkAbilityToBuild : function( params ){
 			// Check object structure
 			if (typeof params.ecomonicsType == 'undefined' &&
@@ -116,9 +138,15 @@ var App = (function ($) {
 		}
 	},
 
+	/* Graphs list (array of Graph objects) */
 	this.graphs = [];
 
+	/* Graphs factory */
 	this.graphsFactory = {
+
+		/**
+		 * Renders graphs in browser
+		 */
 		render : function () {
 			// Get count of columns and rows to render
 			var countRows = 0, countCols = 0;
@@ -146,20 +174,33 @@ var App = (function ($) {
 					);
 			}
 
+			// Run highcharts plugin
 			this.run();
 		},
 
+
+		/**
+		 * Runs highcharts plugin
+		 */
 		run : function() {
 			// Run plugin for each graph
 			for (var i = 0; i < parent.graphs.length; i++) {
 				var selector = "#" + parent.graphs[i].id;
 
+				// In case of chart block not found we can't initialize plugin
 				if (!parent.useful.exists( selector )) continue;
 
+				// Plugin initialization
 				$( selector ).highcharts( parent.graphs[i] );
 			}
 		},
 
+
+		/**
+		 * Retrieves graph by it's id
+		 * @param  {string} id Identificator specified in Graph class
+		 * @return {Graph}|{null}    Graph object
+		 */
 		get : function(id) {
 			for (var i = 0; i < parent.graphs.length; i++) {
 				if (parent.graphs[i].id == id) {
@@ -170,10 +211,19 @@ var App = (function ($) {
 			return null;
 		},
 
+
+		/**
+		 * Retrieves full graph list
+		 * @return {array} Graph list
+		 */
 		getAll : function() {
 			return parent.graphs;
 		},
 
+
+		/**
+		 * Rolls back all lines on all graphs (to default parameters)
+		 */
 		rollbackAll : function() {
 			for (var i = 0; i < parent.graphs.length; i++) {
 				parent.graphs[i].linesFactory.rollbackAll();
@@ -181,6 +231,10 @@ var App = (function ($) {
 			}
 		},
 
+
+		/**
+		 * Clears graph from all supporting lines (added by modules)
+		 */
 		clearSupportingOnAll : function() {
 			for (var i = 0; i < parent.graphs.length; i++) {
 				parent.graphs[i].linesFactory.clearSupporting();
@@ -189,35 +243,57 @@ var App = (function ($) {
 		}
 	};
 
+	/* List of application modules */
 	this.modules = [];
+
+	/* Modules history (order of initialization) */
 	this.modulesHistory = [];
 
+	/* Modules factory */
 	this.modulesFactory = {
+
+		/**
+		 * Render list of modules in DOM (modal window)
+		 */
 		renderList : function() {
 			parent.interface.dom.renderModuleList();
 		},
 
+
+		/**
+		 * Render list of modules, specified in history list (history block)
+		 */
 		renderHistory : function() {
 			parent.interface.dom.renderHistory();
 			this.activateByHistory();
 		},
 
+
+		/**
+		 * Run modules one by one (concerning history list)
+		 */
 		activateByHistory : function() {
 			// Reset current options to default values
 			parent.graphsFactory.clearSupportingOnAll();
 			parent.graphsFactory.rollbackAll();
 
-			// Run modules one by one
 			for (var i = 0; i < parent.modulesHistory.length; i++) {
 				// Before running module we clear all intermediate lines on graphs
 				parent.graphsFactory.clearSupportingOnAll();
 
+				// Run module
 				parent.modulesHistory[i].action.call( parent.modulesHistory[i], parent.graphsFactory );
 			}
 
+			// Rerender graphs
 			parent.graphsFactory.run();
 		},
 
+
+		/**
+		 * Add module to history list
+		 * @param {[type]} id [description]
+		 */
 		addToHistory : function(id) {
 			if ($("#graphsSection").hasClass("hidden")) {
 				parent.message.show("Ошибка", "Графики не были построены", "error");
@@ -243,6 +319,11 @@ var App = (function ($) {
 			}
 		},
 
+		/**
+		 * Remove module from history
+		 * @param  {string} id    Identificator, specified in Module class
+		 * @param  {int}    order Index in history array
+		 */
 		removeFromHistory : function(id, order) {
 			for (var i = 0; i < parent.modulesHistory.length; i++) {
 				if (parent.modulesHistory[i].id == id && order == i) {
@@ -253,6 +334,10 @@ var App = (function ($) {
 			this.renderHistory();
 		},
 
+		/**
+		 * Apply sorting
+		 * @param  {array} newOrder New order
+		 */
 		reorderHistory : function(newOrder) {
 			var newHistory = [];
 
@@ -267,17 +352,24 @@ var App = (function ($) {
 	};
 
 	
+
 	/* Application functions */
 	/*-----------------------------------------------------------------*/
+	/* Application interface */
 	this.interface = {
-		/* Prepare window for first use */
+		
+		/**
+		 * Prepare window for first use
+		 */
 		prepare : function(){
 			parent.modulesFactory.renderList();
 
+			/* Run initialization actions */
 			this.actions.interface = this;
 			this.actions.showSection( $("#paramsSection") );
 			this.actions.enableSorting();
 
+			/* Apply event handlers */
 			this.handlers.interface = this;
 			this.handlers.fullscreenHandler();
 			this.handlers.rerenderGraphsHandler();
@@ -292,6 +384,11 @@ var App = (function ($) {
 		dom : {
 			graphHeight : 400,
 
+			/**
+			 * Render grid for graphs area (bootstrap grid)
+			 * @param  {int} rows    Rows count
+			 * @param  {int} columns Comuns count
+			 */
 			renderGraphGrid : function (rows, columns) {
 				$("#graphsArea").html("");
 
@@ -312,6 +409,12 @@ var App = (function ($) {
 				});
 			},
 
+			/**
+			 * Render graph blocks in a cell in grid
+			 * @param  {int} row    Row id
+			 * @param  {int} column Column id
+			 * @param  {string} id  Graph id
+			 */
 			renderGraph : function (row, column, id) {
 				var that = this;
 				var parent = $("#graphsArea .row").eq(row).find(".column").eq(column);
@@ -322,6 +425,9 @@ var App = (function ($) {
 					.appendTo( parent );
 			},
 
+			/**
+			 * Render module history list
+			 */
 			renderHistory : function () {
 				$("#historyPanels").html("");
 
@@ -330,6 +436,9 @@ var App = (function ($) {
 				}
 			},
 
+			/**
+			 * Render module list (modal window)
+			 */
 			renderModuleList : function () {
 				$("#modulesList").html("");
 
@@ -338,6 +447,11 @@ var App = (function ($) {
 				}
 			},
 
+			/**
+			 * Render unique history module
+			 * @param  {object} module Module object
+			 * @param  {int}    order  Index in history list
+			 */
 			renderHistoryModule : function (module, order) {
 				var $panel = $("<div></div>")
 								.attr({
@@ -388,6 +502,10 @@ var App = (function ($) {
 				$("#historyPanels").append( $panel );
 			},
 
+			/**
+			 * Render unique module
+			 * @param  {object} module Module object
+			 */
 			renderModule : function (module) {
 				var $panel = $("<div></div>").addClass('panel panel-default panel-history');
 
@@ -430,9 +548,13 @@ var App = (function ($) {
 
 		/* List of actions */
 		actions : {
+			/* Link to parent object */
 			interface : null,
 
-			/* Show sections */
+			/**
+			 * Show specified section
+			 * @param  {string} section Section selector
+			 */
 			showSection : function(section){
 				if ($(section).hasClass("hidden")) {
 					$(section).removeClass("hidden");
@@ -444,7 +566,9 @@ var App = (function ($) {
 				}				
 			},
 
-			/* Enable sorting in history list */
+			/**
+			 * Enable sorting in history list (jQuery UI sortable plugin)
+			 */
 			enableSorting : function(){
 				$("#historyPanels").sortable({
 	                handle: ".panel-sort-toggle",
@@ -460,7 +584,10 @@ var App = (function ($) {
 	            $("#historyPanels").disableSelection();
 			},
 
-			/* Toggle parameter */
+			/**
+			 * Toggle parameter button in prams list
+			 * @param  {object} current Button DOM object
+			 */
 			toggleParam : function(current){
 				var currentKey = $(current).attr("data-params") || "";
 				var connected = $("[data-params='"+currentKey+"']");
@@ -477,7 +604,11 @@ var App = (function ($) {
 				if (details !== null) $(details).collapse("show");
 			},
 
-			/* Scroll to element */
+			/**
+			 * Scroll to element
+			 * @param  {string} element   Selector
+			 * @param  {int} 	topOffset Top padding
+			 */
 			scrollTo : function(element, topOffset){
 				var offset = $(element).offset().top - topOffset;
 				$('html, body').animate({
@@ -489,9 +620,12 @@ var App = (function ($) {
 
 		/* Event handlers */
 		handlers : {
+			/* Link to parent object */
 			interface : null,
 
-			/* Rerender graphs */
+			/**
+			 * Rerender handler
+			 */
 			rerenderGraphsHandler : function() {
 				$("#rerenderGraphsBtn").on("click", function(e){
 					e.preventDefault();
@@ -500,7 +634,9 @@ var App = (function ($) {
 				});
 			},
 
-			/* Toggle fullscreen mode */
+			/**
+			 * Fullscreen handler
+			 */
 			fullscreenHandler : function() {
 				$("#fullscreenToggleBtn").on("click", function(e){
 					e.preventDefault();
@@ -516,17 +652,19 @@ var App = (function ($) {
 				});
 			},
 
-			/* Opens modal window when big red button is clicked */
+			/**
+			 * Modules modal window handler
+			 */
 			modalHandler : function(){
 				$(".add-change").on("click", function(e){
 	                e.preventDefault();
 	                $("#addChangeModal").modal();
-
-	                // There we shuld load modules
 	            });
 			},
 
-			/* Handle click on parameters buttons */
+			/**
+			 * Set handler for parameters buttons
+			 */
 			parametersHandler : function(){
 				$("[data-params]").on("click", function(e){
 					e.preventDefault();
@@ -547,7 +685,9 @@ var App = (function ($) {
 				});
 			},
 
-			/* Change icon when collapse parameters section */
+			/**
+			 * Change icon when parameters section was collapsed
+			 */
 			collapseParametersHandler : function(){
 				$('#paramsList').on("show.bs.collapse", function(){
 					$('[data-toggle="collapse"][href="#paramsList"] i').html("keyboard_arrow_up");
@@ -557,7 +697,9 @@ var App = (function ($) {
 				});
 			},
 
-			/* Handle click on build button */
+			/**
+			 * Handle click on build button
+			 */
 			buildHandler : function(){
 				$("#buildGraphsBtn").on("click", function(e){
 					e.preventDefault();

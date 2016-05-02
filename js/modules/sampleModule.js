@@ -38,10 +38,6 @@ sample.action = function (graphs) {
 	is.params.param1 += 50;
 
 
-	console.log(is);
-	console.log(isPrev);
-
-
 	/* Calculate new series */
 	islmbp.linesFactory.convertAll();
 }
