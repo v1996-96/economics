@@ -17,9 +17,11 @@ adas.yAxis.title.text = "r";
 
 var ad = new Line();
 	ad.id = "ad";
-	ad.params = {
+	var paramsAD = {
 		multiplier : 10
 	};
+	ad.defaultParams = paramsAD;
+	ad.params = paramsAD;
 	ad.equation = function(x){
 		return this.multiplier * x;
 	};
@@ -33,7 +35,8 @@ var ad = new Line();
 
 	adas.linesFactory.add( ad );
 
-
+// Only these lines will remain between module calls
+adas.defaultLines = ["ad", "as"];
 
 // Initialize graph
 adas.linesFactory.convertAll();

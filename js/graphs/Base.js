@@ -6,6 +6,8 @@
 
 /* Graph line class */
 function Line() {
+	var parent = this;
+
 	this.id = null;
 
 	// Line static parameters
@@ -21,12 +23,23 @@ function Line() {
 	};
 
 	// Plot settings
-	this.settings = {
-		type: "line",
-		marker: {
-			enabled: false
-		}
-	};
+	this.settings = {};
+
+	// Clone line object
+	this.copy = function(lineObj) {
+		var lineObj = lineObj || parent;
+
+		if (lineObj instanceof Line) {
+			var newLine = new Line();
+
+			return $.extend(true, newLine, lineObj);
+		} else return null;
+	}
+
+	// Rollback parameters to initial state
+	this.rollback = function() {
+		this.params = $.extend(true, {}, this.defaultParams);
+	}
 }
 
 
@@ -57,6 +70,10 @@ function Graph() {
 	this.xAxis.title.align = "high";
 	this.xAxis.title.style = { "fontWeight" : "bold", "fontSize" : 16 };
 	this.xAxis.crosshair = true;
+	this.xAxis.labels = {};
+	this.xAxis.labels.enabled = false;
+	this.xAxis.lineWidth = 1;
+	this.xAxis.tickLength = 0;
 
 	/* Y axis */
 	this.yAxis = {};
@@ -65,6 +82,11 @@ function Graph() {
 	this.yAxis.title.align = "high";
 	this.yAxis.title.rotation = 0;
 	this.yAxis.title.style = { "fontWeight" : "bold", "fontSize" : 16 };
+	this.yAxis.crosshair = true;
+	this.yAxis.labels = {};
+	this.yAxis.labels.enabled = false;
+	this.yAxis.lineWidth = 1;
+	this.yAxis.tickLength = 0;
 
 	/* Legend */
 	this.legend = {};
@@ -77,13 +99,42 @@ function Graph() {
 	this.seriesSettings.max = 10;
 	this.seriesSettings.interval = 0.1;	
 
+	/* Link to plugin site */
+	this.credits = {};
+	this.credits.enabled = false;
+
+	/* Plot options */
+	this.plotOptions = {};
+	this.plotOptions.line = {};
+	this.plotOptions.line.marker = {};
+	this.plotOptions.line.marker.enabled = false;
+	this.plotOptions.line.lineWidth = 3;
+
+	/* Tooltip options */
+	this.tooltip = {};
+	this.tooltip.formatter = function() {
+		return this.series.name;
+	}
+
+	/* Chart options */
+	this.chart = {};
+	this.chart.type = "line";
+
 	/* Lines (abstract) */
 	this.lines = [];
+	this.defaultLines = []; // List of string values
+
+
 
 
 	/* Methods */
 	/*-----------------------------------------------------------------*/
 	var parent = this;
+
+	this.rollback = function() {
+
+	};
+
 
 	this.calculate = {
 		/* Calculates dataset for x axis */
@@ -208,6 +259,30 @@ function Graph() {
 
 			for (var i = 0; i < parent.lines.length; i++) {
 				this.convert( parent.lines[i] );
+			}
+		},
+
+		clearSupporting : function() {
+			var newLinesList = [];
+
+			for (var i = 0; i < parent.lines.length; i++) {
+				var found = false;
+
+				for (var j = 0; j < parent.defaultLines.length; j++) {
+					if (parent.lines[i].id == parent.defaultLines[j]){
+						found = true; break;
+					}
+				}
+
+				if (found) newLinesList.push( parent.lines[i] );
+			}
+
+			parent.lines = newLinesList;
+		},
+
+		rollbackAll : function() {
+			for (var i = 0; i < parent.lines.length; i++) {
+				parent.lines[i].rollback();
 			}
 		}
 	};

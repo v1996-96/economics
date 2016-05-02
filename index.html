@@ -87,14 +87,21 @@
                     <a href="#" id="buildGraphsBtn" class="btn btn-success btn-block waves-effect waves-light">Построить</a>
                 </div>
             </div>
-
         </div>
     </section>
 
 
     <!-- Graphs -->
     <section id="graphsSection" class="hidden site-section z-depth-1">
-        <h2 class="section-title">Графики</h2>
+        <h2 class="section-title">
+            Графики
+            <a id="rerenderGraphsBtn" class="section-action-btn waves-effect waves-teal pull-right">
+                <i class="material-icons">autorenew</i>
+            </a>
+            <a id="fullscreenToggleBtn" class="section-action-btn waves-effect waves-teal pull-right">
+                <i class="material-icons">fullscreen</i>
+            </a>
+        </h2>
 
         <div id="graphsArea"></div>
     </section>
@@ -144,6 +151,8 @@
 
     <!-- Chart plugin -->
     <script type="text/javascript" src="plugins/highcharts/highcharts.js"></script>
+    <script type="text/javascript" src="plugins/highcharts/modules/exporting.js"></script>
+    <script type="text/javascript" src="plugins/highcharts/modules/offline-exporting.js"></script>
 
     <!-- Application -->
     <script type="text/javascript" src="js/graphs/Base.js"></script>

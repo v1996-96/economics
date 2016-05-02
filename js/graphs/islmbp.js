@@ -17,18 +17,16 @@ islmbp.yAxis.title.text = "r";
 
 var is = new Line();
 	is.id = "is";
-	is.params = {
+	var paramsIS = {
 		param1 : 1
 	};
+	is.defaultParams = paramsIS;
+	is.params = paramsIS;
 	is.equation = function(x){
-		return 10 * x;
+		return 10 * x + this.param1;
 	};
 	is.settings = {
 		name: "IS",
-		type: "line",
-		marker: {
-			enabled: false
-		},
 		color: "red"
 	};
 
@@ -37,24 +35,23 @@ var is = new Line();
 
 var lm = new Line();
 	lm.id = "lm";
-	lm.params = {
+	var paramsLM = {
 		multiplier : -10
-	};
+	}
+	lm.defaultParams = paramsLM;
+	lm.params = paramsLM;
 	lm.equation = function(x){
 		return -8 * x + 100;
 	};
 	lm.settings = {
 		name: "LM",
-		type: "line",
-		marker: {
-			enabled: false
-		},
 		color: "green"
 	};
 
 	islmbp.linesFactory.add( lm );
 
-
+// Only these lines will remain between module calls
+islmbp.defaultLines = ["is", "lm", "bp"];
 
 // Initialize graph
 islmbp.linesFactory.convertAll();

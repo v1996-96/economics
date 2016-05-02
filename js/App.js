@@ -158,6 +158,34 @@ var App = (function ($) {
 
 				$( selector ).highcharts( parent.graphs[i] );
 			}
+		},
+
+		get : function(id) {
+			for (var i = 0; i < parent.graphs.length; i++) {
+				if (parent.graphs[i].id == id) {
+					return parent.graphs[i];
+				}
+			}
+
+			return null;
+		},
+
+		getAll : function() {
+			return parent.graphs;
+		},
+
+		rollbackAll : function() {
+			for (var i = 0; i < parent.graphs.length; i++) {
+				parent.graphs[i].linesFactory.rollbackAll();
+				parent.graphs[i].linesFactory.convertAll();
+			}
+		},
+
+		clearSupportingOnAll : function() {
+			for (var i = 0; i < parent.graphs.length; i++) {
+				parent.graphs[i].linesFactory.clearSupporting();
+				parent.graphs[i].linesFactory.convertAll();
+			}
 		}
 	};
 
@@ -175,8 +203,16 @@ var App = (function ($) {
 		},
 
 		activateByHistory : function() {
+			// Reset current options to default values
+			parent.graphsFactory.clearSupportingOnAll();
+			parent.graphsFactory.rollbackAll();
+
+			// Run modules one by one
 			for (var i = 0; i < parent.modulesHistory.length; i++) {
-				parent.modulesHistory[i].action.call( parent.modulesHistory[i] );
+				// Before running module we clear all intermediate lines on graphs
+				parent.graphsFactory.clearSupportingOnAll();
+
+				parent.modulesHistory[i].action.call( parent.modulesHistory[i], parent.graphsFactory );
 			}
 
 			parent.graphsFactory.run();
@@ -243,6 +279,8 @@ var App = (function ($) {
 			this.actions.enableSorting();
 
 			this.handlers.interface = this;
+			this.handlers.fullscreenHandler();
+			this.handlers.rerenderGraphsHandler();
 			this.handlers.modalHandler();
 			this.handlers.parametersHandler();
 			this.handlers.collapseParametersHandler();
@@ -453,6 +491,31 @@ var App = (function ($) {
 		handlers : {
 			interface : null,
 
+			/* Rerender graphs */
+			rerenderGraphsHandler : function() {
+				$("#rerenderGraphsBtn").on("click", function(e){
+					e.preventDefault();
+
+					parent.graphsFactory.render();
+				});
+			},
+
+			/* Toggle fullscreen mode */
+			fullscreenHandler : function() {
+				$("#fullscreenToggleBtn").on("click", function(e){
+					e.preventDefault();
+
+					if ($(this).find("i").text() == "fullscreen") {
+						$(this).find("i").text("fullscreen_exit");
+					} else {
+						$(this).find("i").text("fullscreen");
+					}
+					$("#graphsSection").toggleClass("fullscreen");
+
+					parent.graphsFactory.render();
+				});
+			},
+
 			/* Opens modal window when big red button is clicked */
 			modalHandler : function(){
 				$(".add-change").on("click", function(e){
@@ -587,6 +650,12 @@ var App = (function ($) {
 
 			getAll : function() {
 				return parent.modules;
+			}
+		},
+
+		params : {
+			get : function() {
+				return $.extend(true, {}, parent.params);
 			}
 		}
 	};
