@@ -15,7 +15,7 @@ sample.action = function (graphs) {
 	/* Get islmbp graph */
 	var islmbp = graphs.get("islmbp");
 	if (islmbp == null) {
-		console.log("graph not found");
+		App.message.show("Error", "graph not found", "error");
 		return;
 	}
 
@@ -24,22 +24,21 @@ sample.action = function (graphs) {
 
 
 	/* Define initial state */
-	var isPrev = is.copy();
-	isPrev.id = "isPrev";
-	isPrev.settings = {
-		"name" : "Первоначальный IS",
-		"color" : "blue",
-		"lineWidth" : 1
-	};
-	islmbp.linesFactory.add( isPrev );
+	// var isPrev = is.copy();
+	// isPrev.id = "isPrev";
+	// isPrev.settings = {
+	// 	"name" : "Первоначальный IS",
+	// 	"color" : "blue",
+	// 	"lineWidth" : 1
+	// };
+	// islmbp.linesFactory.add( isPrev );
 
 
 	/* Move line to new position */
-	is.params.param1 += 50;
+	var currentG = App.factors.current.get("G");
+	App.factors.current.set("G", currentG - 50);
+	// is.params.param1 += 50;
 
-
-	/* Calculate new series */
-	islmbp.linesFactory.convertAll();
 }
 
 App.module.add( sample );

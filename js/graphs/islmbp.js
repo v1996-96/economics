@@ -22,8 +22,8 @@ var is = new Line();
 	};
 	is.defaultParams = paramsIS;
 	is.params = paramsIS;
-	is.equation = function(x){
-		return 10 * x + this.param1;
+	is.equation = function(x, factors){
+		return 10 * x + this.param1 + factors["G"];
 	};
 	is.settings = {
 		name: "IS",
@@ -40,7 +40,7 @@ var lm = new Line();
 	}
 	lm.defaultParams = paramsLM;
 	lm.params = paramsLM;
-	lm.equation = function(x){
+	lm.equation = function(x, factors){
 		return -8 * x + 100;
 	};
 	lm.settings = {

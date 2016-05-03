@@ -17,7 +17,7 @@ function Line() {
 
 
 	// Line equation
-	this.equation = function (x) { 
+	this.equation = function (x, factors) { 
 		// this keyword gives access to params property (when it is calling)
 
 		// There we return value for y axis
@@ -176,9 +176,10 @@ function Graph() {
 		dataset : function( equation, axisData, equationObj ){
 			var equationObj = equationObj || window;
 
+			var factors = App.factors.getAll();
 			var dataset = [];
 			for (var i = 0; i < axisData.length; i++) {
-				dataset.push( equation.call(equationObj, axisData[i]) );
+				dataset.push( equation.call(equationObj, axisData[i], factors) );
 			}
 			return dataset;
 		},

@@ -22,15 +22,13 @@ var ad = new Line();
 	};
 	ad.defaultParams = paramsAD;
 	ad.params = paramsAD;
-	ad.equation = function(x){
-		return this.multiplier * x;
+	ad.equation = function(x, factors){
+
+		return this.multiplier * x + factors["G"];
 	};
 	ad.settings = {
 		name: "AD",
-		type: "line",
-		marker: {
-			enabled: false
-		}
+		type: "line"
 	};
 
 	adas.linesFactory.add( ad );

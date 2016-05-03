@@ -9,8 +9,12 @@ function Module() {
 
 	this.id = null;
 
-	this.name = "Увеличение налогов";
-	this.description = "Описание действия с точки зрения экономики :)";
+	this.name = "";
+	this.description = "";
 
-	this.action = function(){}
+	this.action = function( graphsFactory ){
+		/* this keyword gives access to current object (Module) */
+
+		/* There we pull economics logic */
+	}
 }

@@ -138,6 +138,75 @@ var App = (function ($) {
 		}
 	},
 
+	/* Common equations coefficients */
+	this.defaultFactors = {};
+	this.factors = {};
+
+	/* Factors factory */
+	this.factorsFactory = {
+
+		/* Default factors methods */
+		defaultFactors : {
+
+			/**
+			 * Set default factor
+			 * @param {string} key   
+			 * @param {object} value 
+			 */
+			set : function(key, value) {
+				parent.defaultFactors[ key ] = value;
+			},
+
+			/**
+			 * Get default factor
+			 * @param  {string} key 
+			 * @return {object}     
+			 */
+			get : function(key) {
+				return parent.defaultFactors[ key ] || null;
+			}
+		},
+
+		/* Current factors methods */
+		currentFactors : {
+
+			/**
+			 * Set current factor
+			 * @param {string} key   
+			 * @param {object} value 
+			 */
+			set : function(key, value) {
+				parent.factors[ key ] = value;
+			},
+
+			/**
+			 * Get current factor
+			 * @param  {string} key 
+			 * @return {object}     
+			 */
+			get : function(key) {
+				return parent.factors[ key ] || null;
+			}
+		},
+
+		/**
+		 * Push factor to current and default lists
+		 * @param {string} key   
+		 * @param {object} value 
+		 */
+		setGlobal : function(key, value) {
+			this.defaultFactors.set(key, value);
+			this.currentFactors.set(key, value);
+		},
+
+		/**
+		 * Resets current factors do default values
+		 */
+		rollback : function() {
+			parent.factors = $.extend(true, {}, parent.defaultFactors);
+		}
+	};
+
 	/* Graphs list (array of Graph objects) */
 	this.graphs = [];
 
@@ -183,6 +252,8 @@ var App = (function ($) {
 		 * Runs highcharts plugin
 		 */
 		run : function() {
+			this.refreshGraphs();
+
 			// Run plugin for each graph
 			for (var i = 0; i < parent.graphs.length; i++) {
 				var selector = "#" + parent.graphs[i].id;
@@ -240,6 +311,16 @@ var App = (function ($) {
 				parent.graphs[i].linesFactory.clearSupporting();
 				parent.graphs[i].linesFactory.convertAll();
 			}
+		},
+
+
+		/**
+		 * Refresh series data on all graphs
+		 */
+		refreshGraphs : function() {
+			for (var i = 0; i < parent.graphs.length; i++) {
+				parent.graphs[i].linesFactory.convertAll();
+			}
 		}
 	};
 
@@ -276,6 +357,8 @@ var App = (function ($) {
 			// Reset current options to default values
 			parent.graphsFactory.clearSupportingOnAll();
 			parent.graphsFactory.rollbackAll();
+			parent.factorsFactory.rollback();
+
 
 			for (var i = 0; i < parent.modulesHistory.length; i++) {
 				// Before running module we clear all intermediate lines on graphs
@@ -798,6 +881,36 @@ var App = (function ($) {
 		params : {
 			get : function() {
 				return $.extend(true, {}, parent.params);
+			}
+		},
+
+		factors : {
+			default : {
+				set : function(key, value) {
+					parent.factorsFactory.defaultFactors.set(key, value);
+				},
+
+				get : function(key) {
+					return parent.factorsFactory.defaultFactors.get(key);
+				}
+			},
+
+			current : {
+				set : function(key, value) {
+					parent.factorsFactory.currentFactors.set(key, value);
+				},
+
+				get : function(key) {
+					return parent.factorsFactory.currentFactors.get(key);
+				}
+			},
+
+			setGlobal : function(key, value) {
+				parent.factorsFactory.setGlobal(key, value);
+			},
+
+			getAll : function() {
+				return $.extend(true, {}, parent.factors);
 			}
 		}
 	};
