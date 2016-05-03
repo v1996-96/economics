@@ -10,6 +10,9 @@ function Line() {
 
 	this.id = null;
 
+	// In case of custom factors used in equation, specify new factors object
+	this.customFactors = null;
+
 
 	// Line static parameters
 	this.defaultParams = {};
@@ -42,6 +45,17 @@ function Line() {
 
 			return $.extend(true, newLine, lineObj);
 		} else return null;
+	}
+
+
+	/**
+	 * Makes copy of current line and snapshot of factors state
+	 * @return {Line} 
+	 */
+	this.snapshot = function() {
+		var copy = this.copy();
+		copy.customFactors = App.factors.getAll();
+		return copy;
 	}
 
 	
@@ -173,10 +187,10 @@ function Graph() {
 		 * @param  {object} equationObj As this value for equation function
 		 * @return {array}             
 		 */
-		dataset : function( equation, axisData, equationObj ){
+		dataset : function( equation, axisData, equationObj, factors ){
 			var equationObj = equationObj || window;
+			var factors = factors || App.factors.getAll();
 
-			var factors = App.factors.getAll();
 			var dataset = [];
 			for (var i = 0; i < axisData.length; i++) {
 				dataset.push( equation.call(equationObj, axisData[i], factors) );
@@ -211,15 +225,16 @@ function Graph() {
 		 * @param  {object} equationObj 
 		 * @return {array}             
 		 */
-		seriesFullData : function( equation, min, max, interval, equationObj ){
+		seriesFullData : function( equation, min, max, interval, equationObj, factors ){
 			var equationObj = equationObj || window;
+			var factors = factors || App.factors.getAll();
 			var equation = equation || function(x){ return x; };
 			var min = min || parent.seriesSettings.min;
 			var max = max || parent.seriesSettings.max;
 			var interval = interval || parent.seriesSettings.interval;
 
 			var axisData = this.axisData( min, max, interval );
-			var dataset = this.dataset( equation, axisData, equationObj );
+			var dataset = this.dataset( equation, axisData, equationObj, factors );
 			var series = Highcharts.map(dataset, function (val, j) {
                 return [axisData[j], val];
             });
@@ -238,8 +253,9 @@ function Graph() {
 			var min = parent.seriesSettings.min;
 			var max = parent.seriesSettings.max;
 			var interval = parent.seriesSettings.interval;
+			var factors = line.customFactors != null ? line.customFactors : App.factors.getAll();
 
-			return this.seriesFullData( line.equation, min, max, interval, line.params );
+			return this.seriesFullData( line.equation, min, max, interval, line.params, factors );
 		}
 	};
 

@@ -24,14 +24,14 @@ sample.action = function (graphs) {
 
 
 	/* Define initial state */
-	// var isPrev = is.copy();
-	// isPrev.id = "isPrev";
-	// isPrev.settings = {
-	// 	"name" : "Первоначальный IS",
-	// 	"color" : "blue",
-	// 	"lineWidth" : 1
-	// };
-	// islmbp.linesFactory.add( isPrev );
+	var isPrev = is.snapshot();
+	isPrev.id = "isPrev";
+	isPrev.settings = {
+		"name" : "Первоначальный IS",
+		"color" : "blue",
+		"lineWidth" : 1
+	};
+	islmbp.linesFactory.add( isPrev );
 
 
 	/* Move line to new position */
