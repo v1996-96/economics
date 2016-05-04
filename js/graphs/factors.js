@@ -3,9 +3,12 @@
  * 05/2016
  */
 
-var params = App.params.get();
+App.onBuild(function (params) {
+	
+	console.log( params );
 
-// Set default factors
-App.factors.setGlobal("G", 50);
-App.factors.setGlobal("Xn", 5);
+	// Set default factors
+	App.factors.setGlobal("G", 50);
+	App.factors.setGlobal("Xn", 5);
 
+});

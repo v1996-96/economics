@@ -136,7 +136,7 @@ var App = (function ($) {
 
 			return true;
 		}
-	},
+	};
 
 	/* Common equations coefficients */
 	this.defaultFactors = {};
@@ -788,10 +788,14 @@ var App = (function ($) {
 					e.preventDefault();
 
 					try{
+						// Check selected params
 						parent.paramsFactory.checkAbilityToBuild( parent.params );
 
-						$("#paramsList").collapse("hide");
+						// Run event handler
+						parent.onBuild.call(window, parent.params);
 
+						// Interface
+						$("#paramsList").collapse("hide");
 						var delay = 0;
 						if ($("#graphsSection").hasClass("hidden")) {
 							delay = 0.3;
@@ -800,6 +804,7 @@ var App = (function ($) {
 							});
 						}
 
+						// Run graphs plugins
 						TweenLite.delayedCall((1 + delay), function(){
 							interface.actions.scrollTo( $("#graphsSection"), 15 );
 							parent.graphsFactory.render();
@@ -814,6 +819,10 @@ var App = (function ($) {
 	};
 
 
+	// Fires after params checking and before graphs initialization
+	this.onBuild = function( params ) {
+		/* Mainly for factors */
+	};
 
 
 	// App constructor
@@ -912,6 +921,10 @@ var App = (function ($) {
 			getAll : function() {
 				return $.extend(true, {}, parent.factors);
 			}
+		},
+
+		onBuild : function( fn ) {
+			parent.onBuild = fn;
 		}
 	};
 

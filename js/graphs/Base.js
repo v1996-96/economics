@@ -49,7 +49,7 @@ function Line() {
 
 
 	/**
-	 * Makes copy of current line and snapshot of factors state
+	 * Makes copy of current line and a snapshot of factors state
 	 * @return {Line} 
 	 */
 	this.snapshot = function() {
