@@ -49,7 +49,7 @@ App.onBuild(function (params) {
 						App.factors.setGlobal('m', 10);
 					}
 						else 
-							if( params.capitalMobility == 'low'
+							if( params.capitalMobility == 'low')
 							{
 								 App.factors.setGlobal('m', 0.8);
 							}
