@@ -116,7 +116,9 @@ function Graph() {
 
 	/* Legend */
 	this.legend = {};
-	this.legend.enabled = false;
+	this.legend.enabled = true;
+	this.legend.margin = -10;
+	this.legend.padding = 0;
 
 	/* Series (graph data) */
 	this.series = [];

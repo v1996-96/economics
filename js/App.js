@@ -465,7 +465,10 @@ var App = (function ($) {
 
 		/* Manipulation with DOM */
 		dom : {
-			graphHeight : 400,
+			graphHeight : function() {
+				var cell = $("#graphsArea .row").eq(0).find(".column").eq(0);
+				return cell.length == 0 ? 400 : cell.width();
+			},
 
 			/**
 			 * Render grid for graphs area (bootstrap grid)

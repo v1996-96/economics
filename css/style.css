@@ -26,6 +26,7 @@ section.fullscreen {
   margin: 0 !important;
   padding: 15px !important;
   border-radius: 0 !important; 
+  overflow-y: auto;
 }
 
 /* Buttons */
