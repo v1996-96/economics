@@ -9,13 +9,39 @@ App.onBuild(function (params) {
 
 	// Define default values
 	var factors = {
-		G: 50, // There I recommend you to write in each line short description for factor
-		T: 50
+		C0 : 500, // автономные расходы
+		MPC : 0.4, // предельная склонность к потреблению
+		T0 : 100, // автономный налог
+		I0 : 100, // автономные инвестиции
+		k1 : 20, // чувствительность инвестиций к процентной ставке
+		G : 40, // государственные расходы
+		Ex : 500, // экспорт
+		Im0 : 100, // автономный импорт
+		k2 : 40, // чувствительность импорта к доходу
+		t : 0, // налоговая ставка
+		MPM : 0.2, // предельная склонность к импорту
+		k3 : 0.5, // чувствительность спроса на деньги к доходу
+		k4 : 100, // чувствительность спроса на деньги к ставке процента
+		MP : 250, // предложение денежной массы 
+		rr : 10, // мировая ставка процента
+		Ka0 : 300, // автономный счет капитала
+		m : 20 // мобильность капитала
+
+
+
+
+
+		//
 	}
 
 	//There you change default values like this
 	if(params.ecomonicsType == 'closed'){
-		factors["G"] = 100; /* or */ factors.G = 100;
+		factors.Ex = 0;
+		factors.Im0 =0;
+		factors.MPM=0;
+		factors.k2 = 0;
+		factors.m=0;
+		factors.Ka0 = 0;
 	}
 
 	// Then you save all at once
