@@ -82,8 +82,8 @@ var App = (function ($) {
 		exchangeRate : null,  	// fixed | fluid
 		economicsSize : null, 	// small | big
 		capitalMobility : null, // absolute | high | low | null
-		prices : null, 			// fixed | fluid
-		period : null  			// long_run | short_run
+		prices : null 			// fixed | fluid
+		//period : null  			// long_run | short_run
 	};
 
 	/* Parameters factory */
@@ -100,14 +100,14 @@ var App = (function ($) {
 				typeof params.exchangeRate == 'undefined' &&
 				typeof params.economicsSize == 'undefined' &&
 				typeof params.capitalMobility == 'undefined' &&
-				typeof params.prices == 'undefined' &&
-				typeof params.period == 'undefined') 
+				typeof params.prices == 'undefined' 
+				/*&& typeof params.period == 'undefined'*/) 
 				throw { message: "Непредвиденная ошибка" };
 
 			// Check fields value
 			if (params.ecomonicsType == null ||
-				params.prices == null ||
-				params.period == null) 
+				params.prices == null 
+				/*|| params.period == null*/) 
 				throw { message: "Не все параметры определены. Не могу построить ((" };
 
 			if (params.ecomonicsType == "opened") {
@@ -131,8 +131,8 @@ var App = (function ($) {
 			if (!parent.useful.inArray(params.prices, ["fixed", "fluid"])) 
 				throw { message: "Непредвиденная ошибка" };
 
-			if (!parent.useful.inArray(params.period, ["long_run", "short_run"])) 
-				throw { message: "Непредвиденная ошибка" };
+			/*if (!parent.useful.inArray(params.period, ["long_run", "short_run"])) 
+				throw { message: "Непредвиденная ошибка" };*/
 
 			return true;
 		}
