@@ -152,6 +152,9 @@ function Graph() {
 	this.lines = [];
 	this.defaultLines = []; // List of string values
 
+	/* Reset axis view intervals */
+	this.resetAxisIntervals = function () {}
+
 
 
 
@@ -373,6 +376,9 @@ function Graph() {
 		 */
 		convertAll : function(){
 			parent.seriesFactory.empty();
+			if (typeof parent.resetAxisIntervals == "function") {
+				parent.resetAxisIntervals.call( parent );
+			}
 
 			for (var i = 0; i < parent.lines.length; i++) {
 				this.convert( parent.lines[i] );
