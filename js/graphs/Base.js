@@ -96,10 +96,10 @@ function Graph() {
 	this.xAxis.title.align = "high";
 	this.xAxis.title.style = { "fontWeight" : "bold", "fontSize" : 16 };
 	this.xAxis.crosshair = true;
-	this.xAxis.labels = {};
-	this.xAxis.labels.enabled = false;
-	this.xAxis.lineWidth = 1;
-	this.xAxis.tickLength = 0;
+	// this.xAxis.labels = {};
+	// this.xAxis.labels.enabled = false;
+	// this.xAxis.lineWidth = 1;
+	// this.xAxis.tickLength = 0;
 
 	/* Y axis */
 	this.yAxis = {};
@@ -109,10 +109,10 @@ function Graph() {
 	this.yAxis.title.rotation = 0;
 	this.yAxis.title.style = { "fontWeight" : "bold", "fontSize" : 16 };
 	this.yAxis.crosshair = true;
-	this.yAxis.labels = {};
-	this.yAxis.labels.enabled = false;
-	this.yAxis.lineWidth = 1;
-	this.yAxis.tickLength = 0;
+	// this.yAxis.labels = {};
+	// this.yAxis.labels.enabled = false;
+	// this.yAxis.lineWidth = 1;
+	// this.yAxis.tickLength = 0;
 
 	/* Legend */
 	this.legend = {};

@@ -9,31 +9,23 @@ exchangeMarket.title.text = "Exchange Market";
 exchangeMarket.xAxis.title.text = "Nx, NFL";
 exchangeMarket.yAxis.title.text = "e";
 
-/*some additional calculations*/
+exchangeMarket.resetAxisIntervals = function() {
+	var factors = App.factors.getAll();
+	var result = CalculateIntermediateVars(factors);
+	var currentNFL = factors["Ex"]-factors["Im0"]-factors["MPM"]*result.income-
+							factors["k2"]*result.currency;
 
-	var MLR = 1 - (1-factors["t"]) *factors["MPC"] + factors["MPM"]; // usual MLR
+    console.log(currentNFL);
 
-	/*IS:   Y+a1*r+b1*e=c1	*/
-	var a1 = factors["k1"]/MLR;
-	var b1 = factors["k2"]/MLR;
-	var c1 = (factors["C0"]-factors["MPC"]*factors["T0"]+factors["I0"]+factors["G"]+factors["Ex"]-factors["Im0"])/MLR; 
-
-	/*LM:   Y+a2*r=c2	*/
-	var a2 = -factors["k4"]/factors["k3"];
-	var c2 = factors["MP"]/factors["k3"];
-
-	/*BP:   Y+a3*r+b3*e=c3	*/
-	var a3 = - factors["m"]/factors["MPM"];
-	var b3 = factors["k2"]/factors["MPM"];
-	var c3 = (factors["Ex"]-factors["Im0"]+factors["Ka0"]-factors["rr"]*factors["m"])/factors["MPM"]; 
+	this.seriesSettings.max = 2.5* Math.abs(currentNFL);
+	this.seriesSettings.min= -2.5* Math.abs(currentNFL);
+	this.yAxis.min = -1.5*Math.abs((factors["Ex"]-factors["Im0"]-factors["MPM"]*result.income-
+ 		currentNFL)/factors["k2"]);
+	this.yAxis.max = 1.5*Math.abs((factors["Ex"]-factors["Im0"]-factors["MPM"]*result.income-
+ 		currentNFL)/factors["k2"]);
+}
 
 
-	/* Solution */
-	var currency = ((c3-c1)*(a2-a1)/(a3-a1)-(c2-c1))/((b3-b1)*(a2-a1)/(a3-a1)+b1);
-	var rate = (c2-c1+b1*currency)/(a2-a1);
-	var income = c2-a2*rate; 
-
-	var currentNFL =factors["Ex"]-factors["Im0"]-factors["MPM"]*income-factors["k2"]*currency;
 
 var nfl = new Line();
 	nfl.id = "nfl";
@@ -43,9 +35,12 @@ var nfl = new Line();
 	nfl.defaultParams = paramsNFL;
 	nfl.params = paramsNFL;
 	nfl.equation = function(x, factors){
-		return currentNFL+(x-currentNFL)*1000000000000;
+		var result = CalculateIntermediateVars(factors);
+		var currentNFL = factors["Ex"]-factors["Im0"]-factors["MPM"]*result.income-
+							factors["k2"]*result.currency;
+		return currentNFL+(x-currentNFL)*10000000;
 	};
-	name.settings = {
+	nfl.settings = {
 		name: "Foreign Investments",
 		color: "red"
 	};
@@ -61,9 +56,10 @@ var nx = new Line();
 	nx.defaultParams = paramsNX;
 	nx.params = paramsNX;
 	nx.equation = function(x, factors){
-		return (factors["Ex"]-factors["Im0"]-factors["MPM"]*income-x)/factors["k2"];
+		var result = CalculateIntermediateVars(factors);
+		return (factors["Ex"]-factors["Im0"]-factors["MPM"]*result.income-x)/factors["k2"];
 	};
-	name.settings = {
+	nx.settings = {
 		name: "Net Export",
 		color: "green"
 	};

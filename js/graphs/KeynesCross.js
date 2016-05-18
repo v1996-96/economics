@@ -9,26 +9,12 @@ keynesCross.title.text = "Keynes Cross";
 keynesCross.xAxis.title.text = "Y";
 keynesCross.yAxis.title.text = "E";
 
-/*some additional calculations*/
-
-	var MLR = 1 - (1-factors["t"]) *factors["MPC"] + factors["MPM"]; // usual MLR
-
-	/*IS:   Y+a1*r+b1*e=c1	*/
-	var a1 = factors["k1"]/MLR;
-	var b1 = factors["k2"]/MLR;
-	var c1 = (factors["C0"]-factors["MPC"]*factors["T0"]+factors["I0"]+factors["G"]+factors["Ex"]-factors["Im0"])/MLR; 
-
-		/*LM:   Y+a2*r=c2	*/
-	var a2 = -factors["k4"]/factors["k3"];
-	var c2 = factors["MP"]/factors["k3"];
-
-	/*BP:   Y+a3*r+b3*e=c3	*/
-	var a3 = - factors["m"]/factors["MPM"];
-	var b3 = factors["k2"]/factors["MPM"];
-	var c3 = (factors["Ex"]-factors["Im0"]+factors["Ka0"]-factors["rr"]*factors["m"])/factors["MPM"]; 
-
-	var currency = ((c3-c1)*(a2-a1)/(a3-a1)-(c2-c1))/((b3-b1)*(a2-a1)/(a3-a1)+b1);
-	var rate = (c2-c1+b1*currency)/(a2-a1);
+keynesCross.resetAxisIntervals = function() {
+	var factors = App.factors.getAll();
+	var result = CalculateIntermediateVars(factors);
+	this.seriesSettings.max = 2* result.income;
+	this.yAxis.max = 2 * result.income;
+}
 
 var plannedExpenditure = new Line();
 	plannedExpenditure.id = "Planned Expenditure";
@@ -56,7 +42,10 @@ var factExpenditure = new Line();
 	factExpenditure.defaultParams = paramsFE;
 	factExpenditure.params = paramsFE;
 	factExpenditure.equation = function(x, factors){
-		return (factors["C0"]+factors["MPC"]*(x*(1-factors["t"])-factors["T0"]))+(factors["I0"]-factors["k1"]*rate)+factors["G"]+(factors["Ex"]-factors["Im0"]-factors["MPM"]*x-factors["k2"]*currency);
+		var result = CalculateIntermediateVars(factors);
+		return (factors["C0"]+factors["MPC"]*(x*(1-factors["t"])-factors["T0"]))
+		+(factors["I0"]-factors["k1"]*result.rate)+factors["G"]+
+		(factors["Ex"]-factors["Im0"]-factors["MPM"]*x-factors["k2"]*result.currency);
 	};
 	factExpenditure.settings = {
 		name: "Fact Expenditure",

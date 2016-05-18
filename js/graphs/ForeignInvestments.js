@@ -21,9 +21,10 @@ var nfl = new Line();
 	nfl.params = paramsNFL;
 	nfl.equation = function(x, factors){
 		var result = CalculateIntermediateVars(factors);
-		return factors["rr"]-(factors["Ex"]-factors["Im0"]-factors["MPM"]*result.income-factors["k2"]* result.currency)/factors["m"];
+		return factors["rr"]-(factors["Ex"]-factors["Im0"]-factors["MPM"]*result.income-
+			factors["k2"]* result.currency)/factors["m"];
 	};
-	name.settings = {
+	nfl.settings = {
 		name: "Foreign Investments",
 		color: "red"
 	};

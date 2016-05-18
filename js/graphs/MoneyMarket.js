@@ -9,6 +9,14 @@ moneyMarket.title.text = "Money Market";
 moneyMarket.xAxis.title.text = "M/P";
 moneyMarket.yAxis.title.text = "r";
 
+moneyMarket.resetAxisIntervals = function() {
+	var factors = App.factors.getAll();
+	var result = CalculateIntermediateVars(factors);
+	this.seriesSettings.max = 2* factors.MP;
+	this.seriesSettings.min=0;
+	this.yAxis.min=0;
+	this.yAxis.max=(result.income*factors["k3"]/factors["k4"])*1.1; // 1.1 - coef for top of yMax 
+}
 var moneySupply = new Line();
 	moneySupply.id = "Money Supply";
 	var paramsMS = {
@@ -17,7 +25,7 @@ var moneySupply = new Line();
 	moneySupply.defaultParams = paramsMS;
 	moneySupply.params = paramsMS;
 	moneySupply.equation = function(x, factors){
-		return  factors["MP"]+(x-factors["MP"]*1000000000000);
+		return  factors["MP"]+(x-factors["MP"])*1000000;
 	};
 	moneySupply.settings = {
 		name: "Money Supply",
@@ -35,7 +43,8 @@ var moneyDemand = new Line();
 	moneyDemand.defaultParams = paramsMD;
 	moneyDemand.params = paramsMD;
 	moneyDemand.equation = function(x, factors){
-		return  x*factors["k1"]/factors["k2"]-factors["MP"]/factors["k2"];
+		var result = CalculateIntermediateVars(factors);
+		return  result.income*factors["k3"]/factors["k4"]-x/factors["k4"];
 	};
 	moneyDemand.settings = {
 		name: "Money Demand",
