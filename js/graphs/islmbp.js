@@ -13,12 +13,9 @@ islmbp.position.column = 1;
 islmbp.title.text = "IS-LM-BP";
 islmbp.xAxis.title.text = "Y";
 islmbp.yAxis.title.text = "r";
-islmbp.yAxis.max = 30;
+
 islmbp.yAxis.min = 0;
-
-
 islmbp.seriesSettings.min = 0;
-
 islmbp.seriesSettings.max = 1000;
 
 islmbp.yAxis.interval = 1;
@@ -28,6 +25,7 @@ islmbp.resetAxisIntervals = function() {
 	var factors = App.factors.getAll();
 	var result = CalculateIntermediateVars(factors);
 	this.seriesSettings.max = 2* result.income;
+	this.yAxis.max = (result.income*factors["k3"]/factors["k4"])*1.1; 
 }
 
 // islmbp.yAxis.min = function(){ 

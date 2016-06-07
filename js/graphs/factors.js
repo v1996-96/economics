@@ -9,12 +9,12 @@ App.onBuild(function (params) {
 
 	// Define default values
 	var factors = {
-		C0 : 500, // автономные расходы
+		C0 : 625, // автономные расходы
 		MPC : 0.4, // предельная склонность к потреблению
 		T0 : 100, // автономный налог
-		I0 : 100, // автономные инвестиции
-		k1 : 20, // чувствительность инвестиций к процентной ставке
-		G : 40, // государственные расходы
+		I0 : 150, // автономные инвестиции
+		k1 : 70, // чувствительность инвестиций к процентной ставке
+		G : 115, // государственные расходы
 		Ex : 500, // экспорт
 		Im0 : 100, // автономный импорт
 		k2 : 40, // чувствительность импорта к доходу
@@ -46,19 +46,20 @@ App.onBuild(function (params) {
 	}
 	
 		//AKHTUNG!! CHECK THIS CODE 7 TIMES!!!
-	if(params.capitalMobility == 'null' && params.ecomonicsType == 'open'){
+	if(params.capitalMobility == 'null' && params.ecomonicsType == 'opened'){
 		factors.m = 0.00001;
 	}
 
-	if(params.capitalMobility == 'low' && params.ecomonicsType == 'open'){
-		factors.m = 5;
+	if(params.capitalMobility == 'low' && params.ecomonicsType == 'opened'){
+		factors.k4 = 100;
+		factors.m = 10;
 	}
 
-	if (params.capitalMobility == 'high' && params.ecomonicsType == 'open'){
+	if (params.capitalMobility == 'high' && params.ecomonicsType == 'opened'){
 		//Nothing to do here
 	}
 
-	if(params.capitalMobility == 'absolute' && params.ecomonicsType == 'open'){
+	if(params.capitalMobility == 'absolute' && params.ecomonicsType == 'opened'){
 		factors.m = 999999;
 	}
 
