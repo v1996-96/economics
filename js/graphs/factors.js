@@ -20,8 +20,8 @@ App.onBuild(function (params) {
 		k2 : 40, // чувствительность импорта к доходу
 		t : 0, // налоговая ставка
 		MPM : 0.2, // предельная склонность к импорту
-		k3 : 0.5, // чувствительность спроса на деньги к доходу
-		k4 : 100, // чувствительность спроса на деньги к ставке процента
+		k3 : 1, // чувствительность спроса на деньги к доходу
+		k4 : 50, // чувствительность спроса на деньги к ставке процента
 		M : 500, // номинальное предложение денежной массы
 		P :  2, // Уровень цен
 		rr : 10, // мировая ставка процента
@@ -44,6 +44,26 @@ App.onBuild(function (params) {
 		factors.m=0;
 		factors.Ka0 = 0;
 	}
+	
+		//AKHTUNG!! CHECK THIS CODE 7 TIMES!!!
+	if(params.capitalMobility == 'null'){
+		factors.m = 0.00001;
+	}
+
+	if(params.capitalMobility == 'low'){
+		factors.m = 5;
+	}
+
+	if (params.capitalMobility == 'high'){
+		//Nothing to do here
+	}
+
+	if(params.capitalMobility == 'absolute'){
+		factors.m = 999999;
+	}
+
+
+
 
 	// Then you save all at once
 	for (var key in factors) {

@@ -13,13 +13,16 @@ islmbp.position.column = 1;
 islmbp.title.text = "IS-LM-BP";
 islmbp.xAxis.title.text = "Y";
 islmbp.yAxis.title.text = "r";
+islmbp.yAxis.max = 30;
+islmbp.yAxis.min = 0;
 
 
 islmbp.seriesSettings.min = 0;
 
-islmbp.seriesSettings.max = 1000;
+islmbp.seriesSettings.max = 100;
 
-islmbp.seriesSettings.interval = 0.1;	
+islmbp.yAxis.interval = 1;
+islmbp.seriesSettings.interval = 5;	
 
 islmbp.resetAxisIntervals = function() {
 	var factors = App.factors.getAll();
