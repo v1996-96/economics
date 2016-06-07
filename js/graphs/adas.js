@@ -27,11 +27,6 @@ adas.resetAxisIntervals = function() {
 
 var ad = new Line();
 	ad.id = "ad";
-	var paramsAD = {
-		multiplier : 10
-	};
-	ad.defaultParams = paramsAD;
-	ad.params = paramsAD;
 	ad.equation = function(x, factors){
 		var result = CalculateIntermediateVars(factors);
 		return factors.M/((factors.k3*x - factors.k4 * ((x*result.MLR - result.c1*result.MLR + (-factors.k2* x + factors.Ex - factors.Im0+factors.Ka0 + factors.m*(result.rate - factors.rr)))/factors.k1))); 

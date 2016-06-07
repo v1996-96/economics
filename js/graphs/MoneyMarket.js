@@ -23,12 +23,7 @@ moneyMarket.resetAxisIntervals = function() {
 
 
 var moneySupply = new Line();
-	moneySupply.id = "Money Supply";
-	var paramsMS = {
-		multiplier : -10
-	}
-	moneySupply.defaultParams = paramsMS;
-	moneySupply.params = paramsMS;
+	moneySupply.id = "moneySupply";
 	moneySupply.equation = function(x, factors){
 		return  factors["M"]/factors["P"]+(x-factors["M"]/factors["P"])*1000000;
 	};
@@ -41,12 +36,7 @@ var moneySupply = new Line();
 
 
 var moneyDemand = new Line();
-	moneyDemand.id = "Money Demand";
-	var paramsMD = {
-		multiplier : -10
-	}
-	moneyDemand.defaultParams = paramsMD;
-	moneyDemand.params = paramsMD;
+	moneyDemand.id = "moneyDemand";
 	moneyDemand.equation = function(x, factors){
 		var result = CalculateIntermediateVars(factors);
 		return  result.income*factors["k3"]/factors["k4"]-x/factors["k4"];
@@ -57,9 +47,9 @@ var moneyDemand = new Line();
 	};
 
 	moneyMarket.linesFactory.add( moneyDemand );
-// Only these lines will remain between module calls
-moneyMarket.defaultLines = ["money Demand","money Demand"];
 
+// Only these lines will remain between module calls
+moneyMarket.defaultLines = ["moneySupply","moneyDemand"];
 
 // Initialize graph
 App.graph.add( moneyMarket );

@@ -17,11 +17,6 @@ foreignInvestments.resetAxisIntervals = function () {
 
 var nfl = new Line();
 	nfl.id = "nfl";
-	var paramsNFL = {
-		param1 : 1
-	};
-	nfl.defaultParams = paramsNFL;
-	nfl.params = paramsNFL;
 	nfl.equation = function(x, factors){
 		var result = CalculateIntermediateVars(factors);
 		return factors["rr"]-(factors["Ex"]-factors["Im0"]-factors["MPM"]*result.income-

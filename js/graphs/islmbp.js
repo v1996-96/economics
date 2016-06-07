@@ -33,11 +33,6 @@ islmbp.resetAxisIntervals = function() {
 
 var is = new Line();
 	is.id = "is";
-	var paramsIS = {
-		param1 : 1
-	};
-	is.defaultParams = paramsIS;
-	is.params = paramsIS;
 	is.equation = function(x, factors){
 		var result = CalculateIntermediateVars(factors);
 		return (-1*x) / result.a1 - result.b1*result.currency/result.a1 + result.c1/result.a1;
@@ -52,11 +47,6 @@ var is = new Line();
 
 var lm = new Line();
 	lm.id = "lm";
-	var paramsLM = {
-		multiplier : -10
-	}
-	lm.defaultParams = paramsLM;
-	lm.params = paramsLM;
 	lm.equation = function(x, factors){
 		var result = CalculateIntermediateVars(factors);
 		return result.c2/result.a2-x/result.a2;
@@ -69,13 +59,8 @@ var lm = new Line();
 	islmbp.linesFactory.add( lm );
 
 
-	var bp = new Line();
+var bp = new Line();
 	bp.id = "bp";
-	var paramsBP = {
-		multiplier : -10
-	}
-	bp.defaultParams = paramsBP;
-	bp.params = paramsBP;
 	bp.equation = function(x, factors){
 		var result = CalculateIntermediateVars(factors);
 		return -1*x/result.a3-result.b3*result.currency/result.a3+result.c3/result.a3;

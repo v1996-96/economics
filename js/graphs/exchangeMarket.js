@@ -24,7 +24,7 @@ exchangeMarket.resetAxisIntervals = function() {
 
 	this.seriesSettings.interval = 
 		Math.abs(this.seriesSettings.max - this.seriesSettings.min) / this.defaultPointsCount;
-	
+
 	// this.seriesSettings.interval = 0.5;
 }
 
@@ -32,11 +32,6 @@ exchangeMarket.resetAxisIntervals = function() {
 
 var nfl = new Line();
 	nfl.id = "nfl";
-	var paramsNFL = {
-		param1 : 1
-	};
-	nfl.defaultParams = paramsNFL;
-	nfl.params = paramsNFL;
 	nfl.equation = function(x, factors){
 		var result = CalculateIntermediateVars(factors);
 		var currentNFL = factors["Ex"]-factors["Im0"]-factors["MPM"]*result.income-
@@ -53,11 +48,6 @@ var nfl = new Line();
 
 var nx = new Line();
 	nx.id = "nx";
-	var paramsNX = {
-		param1 : 1
-	};
-	nx.defaultParams = paramsNX;
-	nx.params = paramsNX;
 	nx.equation = function(x, factors){
 		var result = CalculateIntermediateVars(factors);
 		return (factors["Ex"]-factors["Im0"]-factors["MPM"]*result.income-x)/factors["k2"];

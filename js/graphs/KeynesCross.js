@@ -20,12 +20,7 @@ keynesCross.resetAxisIntervals = function() {
 }
 
 var plannedExpenditure = new Line();
-	plannedExpenditure.id = "Planned Expenditure";
-	var paramsPE = {
-		param1 : 1
-	};
-	plannedExpenditure.defaultParams = paramsPE;	
-	plannedExpenditure.params = paramsPE;
+	plannedExpenditure.id = "plannedExpenditure";
 	plannedExpenditure.equation = function(x, factors){
 		return x;
 	};
@@ -38,12 +33,7 @@ var plannedExpenditure = new Line();
 
 
 var factExpenditure = new Line();
-	factExpenditure.id = "Fact Expenditure";
-	var paramsFE = {
-		multiplier : -10
-	}
-	factExpenditure.defaultParams = paramsFE;
-	factExpenditure.params = paramsFE;
+	factExpenditure.id = "factExpenditure";
 	factExpenditure.equation = function(x, factors){
 		var result = CalculateIntermediateVars(factors);
 		return (factors["C0"]+factors["MPC"]*(x*(1-factors["t"])-factors["T0"]))
