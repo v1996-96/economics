@@ -9,7 +9,10 @@ foreignInvestments.title.text = "Foreign Investments";
 foreignInvestments.xAxis.title.text = "NFL";
 foreignInvestments.yAxis.title.text = "r";
 
-
+foreignInvestments.resetAxisIntervals = function () {
+	this.seriesSettings.interval = 
+		Math.abs(this.seriesSettings.max - this.seriesSettings.min) / this.defaultPointsCount;
+}
 
 
 var nfl = new Line();
@@ -35,5 +38,4 @@ var nfl = new Line();
 foreignInvestments.defaultLines = ["nfl"];
 
 // Initialize graph
-foreignInvestments.linesFactory.convertAll();
 App.graph.add( foreignInvestments );

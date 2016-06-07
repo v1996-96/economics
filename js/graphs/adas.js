@@ -20,6 +20,9 @@ adas.resetAxisIntervals = function() {
 	var result = CalculateIntermediateVars(factors);
 	this.seriesSettings.max = result.income * 2;
 	this.yAxis.max = 0.5; 
+
+	this.seriesSettings.interval = 
+		Math.abs(this.seriesSettings.max - this.seriesSettings.min) / this.defaultPointsCount;
 }
 
 var ad = new Line();
@@ -49,5 +52,4 @@ var ad = new Line();
 adas.defaultLines = ["ad", "as"];
 
 // Initialize graph
-adas.linesFactory.convertAll();
 App.graph.add( adas );

@@ -96,10 +96,11 @@ function Graph() {
 	this.xAxis.title.align = "high";
 	this.xAxis.title.style = { "fontWeight" : "bold", "fontSize" : 16 };
 	this.xAxis.crosshair = true;
-	// this.xAxis.labels = {};
-	// this.xAxis.labels.enabled = false;
-	// this.xAxis.lineWidth = 1;
-	// this.xAxis.tickLength = 0;
+	this.xAxis.labels = {};
+	this.xAxis.labels.enabled = false;
+	this.xAxis.labels.formatter = function() { return Math.round( this.value * 100 ) / 100 }
+	this.xAxis.lineWidth = 1;
+	this.xAxis.tickLength = 0;
 
 	/* Y axis */
 	this.yAxis = {};
@@ -109,15 +110,16 @@ function Graph() {
 	this.yAxis.title.rotation = 0;
 	this.yAxis.title.style = { "fontWeight" : "bold", "fontSize" : 16 };
 	this.yAxis.crosshair = true;
-	// this.yAxis.labels = {};
-	// this.yAxis.labels.enabled = false;
-	// this.yAxis.lineWidth = 1;
-	// this.yAxis.tickLength = 0;
+	this.yAxis.labels = {};
+	this.yAxis.labels.enabled = false;
+	this.yAxis.labels.formatter = function() { return Math.round( this.value * 100 ) / 100 }
+	this.yAxis.lineWidth = 1;
+	this.yAxis.tickLength = 0;
 
 	/* Legend */
 	this.legend = {};
 	this.legend.enabled = true;
-	this.legend.margin = -10;
+	this.legend.margin = -5;
 	this.legend.padding = 0;
 
 	/* Series (graph data) */
@@ -125,7 +127,8 @@ function Graph() {
 	this.seriesSettings = {};
 	this.seriesSettings.min = 0;
 	this.seriesSettings.max = 10;
-	this.seriesSettings.interval = 0.1;	
+	this.seriesSettings.interval = 0.1;   // Default interval. Is suppused to be changed
+	this.defaultPointsCount = 50;	// Is used for calculation of interval
 
 	/* Link to plugin site */
 	this.credits = {};
@@ -140,9 +143,7 @@ function Graph() {
 
 	/* Tooltip options */
 	this.tooltip = {};
-	this.tooltip.formatter = function() {
-		return this.series.name;
-	}
+	this.tooltip.formatter = function() { return this.series.name; }
 
 	/* Chart options */
 	this.chart = {};
@@ -352,6 +353,7 @@ function Graph() {
 			var series = {};
 			$.extend(series, line.settings);
 			series.data = seriesData;
+			series.id = line.id;
 
 			parent.seriesFactory.add( series );
 		},

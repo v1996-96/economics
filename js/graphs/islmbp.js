@@ -18,27 +18,17 @@ islmbp.yAxis.min = 0;
 islmbp.seriesSettings.min = 0;
 islmbp.seriesSettings.max = 1000;
 
-islmbp.yAxis.interval = 1;
-islmbp.seriesSettings.interval = 5;	
+islmbp.seriesSettings.interval = 10;	
 
 islmbp.resetAxisIntervals = function() {
 	var factors = App.factors.getAll();
 	var result = CalculateIntermediateVars(factors);
 	this.seriesSettings.max = 2* result.income;
 	this.yAxis.max = (result.income*factors["k3"]/factors["k4"])*1.1; 
+
+	this.seriesSettings.interval = 
+		Math.abs(this.seriesSettings.max - this.seriesSettings.min) / this.defaultPointsCount;
 }
-
-// islmbp.yAxis.min = function(){ 
-// 	var factors = App.factors.getAll();
-// 	var result = CalculateIntermediateVars(factors); 
-// 	console.log("hh");
-// 	return -1000; }
-
-// islmbp.yAxis.max = function(){ 
-// 	var factors = App.factors.getAll();
-// 	var result = CalculateIntermediateVars(factors); 
-// 	console.log("hh");
-// 	return  1000; }
 
 
 var is = new Line();
@@ -101,5 +91,4 @@ var lm = new Line();
 islmbp.defaultLines = ["is", "lm", "bp"];
 
 // Initialize graph
-islmbp.linesFactory.convertAll();
 App.graph.add( islmbp );

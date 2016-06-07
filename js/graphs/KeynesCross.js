@@ -14,6 +14,9 @@ keynesCross.resetAxisIntervals = function() {
 	var result = CalculateIntermediateVars(factors);
 	this.seriesSettings.max = 2* result.income;
 	this.yAxis.max = 2 * result.income;
+
+	this.seriesSettings.interval = 
+		Math.abs(this.seriesSettings.max - this.seriesSettings.min) / this.defaultPointsCount;
 }
 
 var plannedExpenditure = new Line();
@@ -59,5 +62,4 @@ var factExpenditure = new Line();
 keynesCross.defaultLines = ["factExpenditure", "plannedExpenditure"];
 
 // Initialize graph
-keynesCross.linesFactory.convertAll();
 App.graph.add( keynesCross );

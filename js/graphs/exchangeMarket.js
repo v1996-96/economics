@@ -15,14 +15,17 @@ exchangeMarket.resetAxisIntervals = function() {
 	var currentNFL = factors["Ex"]-factors["Im0"]-factors["MPM"]*result.income-
 							factors["k2"]*result.currency;
 
-    console.log(currentNFL);
-
 	this.seriesSettings.max = 2.5* Math.abs(currentNFL);
 	this.seriesSettings.min= -2.5* Math.abs(currentNFL);
 	this.yAxis.min = -1.5*Math.abs((factors["Ex"]-factors["Im0"]-factors["MPM"]*result.income-
  		currentNFL)/factors["k2"]);
 	this.yAxis.max = 1.5*Math.abs((factors["Ex"]-factors["Im0"]-factors["MPM"]*result.income-
  		currentNFL)/factors["k2"]);
+
+	this.seriesSettings.interval = 
+		Math.abs(this.seriesSettings.max - this.seriesSettings.min) / this.defaultPointsCount;
+	
+	// this.seriesSettings.interval = 0.5;
 }
 
 
@@ -71,5 +74,4 @@ var nx = new Line();
 exchangeMarket.defaultLines = ["nfl", "nx"];
 
 // Initialize graph
-exchangeMarket.linesFactory.convertAll();
 App.graph.add( exchangeMarket );

@@ -72,9 +72,9 @@ App.onBuild(function (params) {
 	}
 
 	// Also I recommend you to write checks like this
-	if (params.ecomonicsType == 'closed' &&
-		params.prices == 'fixed' &&
-		params.period == 'long_run') {}
+	// if (params.ecomonicsType == 'closed' &&
+	// 	params.prices == 'fixed' &&
+	// 	params.period == 'long_run') {}
 	// Then it will be easier to maintain code in future
 	
 	// Also I recommend not to write additional tabs in new logic blocks,

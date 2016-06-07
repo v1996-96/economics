@@ -16,7 +16,12 @@ moneyMarket.resetAxisIntervals = function() {
 	this.seriesSettings.min=0;
 	this.yAxis.min=0;
 	this.yAxis.max=(result.income*factors["k3"]/factors["k4"])*1.1; // 1.1 - coef for top of yMax 
+
+	this.seriesSettings.interval = 
+		Math.abs(this.seriesSettings.max - this.seriesSettings.min) / this.defaultPointsCount;
 }
+
+
 var moneySupply = new Line();
 	moneySupply.id = "Money Supply";
 	var paramsMS = {
@@ -57,5 +62,4 @@ moneyMarket.defaultLines = ["money Demand","money Demand"];
 
 
 // Initialize graph
-moneyMarket.linesFactory.convertAll();
 App.graph.add( moneyMarket );
