@@ -7,6 +7,10 @@ var App = (function ($) {
 
 	var parent = this;
 
+
+	this.isInitialized = false;
+
+
 	/* Useful JS stuff */
 	/*-----------------------------------------------------------------*/
 	this.useful = {
@@ -216,32 +220,38 @@ var App = (function ($) {
 		/**
 		 * Renders graphs in browser
 		 */
-		render : function () {
-			// Get count of columns and rows to render
-			var countRows = 0, countCols = 0;
-			for (var i = 0; i < parent.graphs.length; i++) {
-				if (countRows < parent.graphs[i].position.row+1) 
-					countRows = parent.graphs[i].position.row+1;
+		render : function (forseRerender) {
+			var forseRerender = forseRerender || false;
 
-				if (countCols < parent.graphs[i].position.column+1 && 
-					parent.graphs[i].position.column+1 <= 4) 
-					countCols = parent.graphs[i].position.column+1;
-			}
+			if (!parent.isInitialized || forseRerender) {
+				// Get count of columns and rows to render
+				var countRows = 0, countCols = 0;
+				for (var i = 0; i < parent.graphs.length; i++) {
+					if (countRows < parent.graphs[i].position.row+1) 
+						countRows = parent.graphs[i].position.row+1;
 
-			if(countRows < 0 || countCols < 0 || countCols > 4)
-				parent.message.show("Ошибка", "При построении произошла ошибка", "error");
-			
-			// Render graph area grid			
-			parent.interface.dom.renderGraphGrid( countRows, countCols );
-			
-			// Render graphs
-			for (var i = 0; i < parent.graphs.length; i++) {
-				parent.interface.dom.renderGraph( 
-					parent.graphs[i].position.row,
-					parent.graphs[i].position.column,
-					parent.graphs[i].id
-					);
-			}
+					if (countCols < parent.graphs[i].position.column+1 && 
+						parent.graphs[i].position.column+1 <= 4) 
+						countCols = parent.graphs[i].position.column+1;
+				}
+
+				if(countRows < 0 || countCols < 0 || countCols > 4)
+					parent.message.show("Ошибка", "При построении произошла ошибка", "error");
+				
+				// Render graph area grid			
+				parent.interface.dom.renderGraphGrid( countRows, countCols );
+				
+				// Render graphs
+				for (var i = 0; i < parent.graphs.length; i++) {
+					parent.interface.dom.renderGraph( 
+						parent.graphs[i].position.row,
+						parent.graphs[i].position.column,
+						parent.graphs[i].id
+						);
+				}
+
+				parent.isInitialized = true;
+			}				
 
 			// Run highcharts plugin
 			this.run();
@@ -254,14 +264,11 @@ var App = (function ($) {
 		run : function() {
 			this.refreshGraphs();
 
-			// Run plugin for each graph
 			for (var i = 0; i < parent.graphs.length; i++) {
 				var selector = "#" + parent.graphs[i].id;
 
-				// In case of chart block not found we can't initialize plugin
 				if (!parent.useful.exists( selector )) continue;
 
-				// Plugin initialization
 				$( selector ).highcharts( parent.graphs[i] );
 			}
 		},
@@ -716,7 +723,7 @@ var App = (function ($) {
 				$("#rerenderGraphsBtn").on("click", function(e){
 					e.preventDefault();
 
-					parent.graphsFactory.render();
+					parent.graphsFactory.render(true);
 				});
 			},
 
@@ -734,7 +741,7 @@ var App = (function ($) {
 					}
 					$("#graphsSection").toggleClass("fullscreen");
 
-					parent.graphsFactory.render();
+					parent.graphsFactory.render(true);
 				});
 			},
 
