@@ -23,8 +23,9 @@ var ad = new Line();
 	ad.defaultParams = paramsAD;
 	ad.params = paramsAD;
 	ad.equation = function(x, factors){
-
-		return this.multiplier * x + factors["G"];
+		var result = CalculateIntermediateVars(factors);
+		return  x //factors["MP"]*factors["k3"]*result.a1 / ( (result.c1 - result.b1*result.currency)*result.a2 - x*(result.a2-result.a1);
+	
 	};
 	ad.settings = {
 		name: "AD",

@@ -12,7 +12,7 @@ moneyMarket.yAxis.title.text = "r";
 moneyMarket.resetAxisIntervals = function() {
 	var factors = App.factors.getAll();
 	var result = CalculateIntermediateVars(factors);
-	this.seriesSettings.max = 2* (factors.MP / factors.P);
+	this.seriesSettings.max = 2* (factors.M / factors.P);
 	this.seriesSettings.min=0;
 	this.yAxis.min=0;
 	this.yAxis.max=(result.income*factors["k3"]/factors["k4"])*1.1; // 1.1 - coef for top of yMax 
@@ -25,7 +25,7 @@ var moneySupply = new Line();
 	moneySupply.defaultParams = paramsMS;
 	moneySupply.params = paramsMS;
 	moneySupply.equation = function(x, factors){
-		return  factors["MP"]/factors["P"]+(x-factors["MP"]/factors["P"])*1000000;
+		return  factors["M"]/factors["P"]+(x-factors["M"]/factors["P"])*1000000;
 	};
 	moneySupply.settings = {
 		name: "Money Supply",
