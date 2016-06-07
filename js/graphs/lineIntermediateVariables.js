@@ -15,7 +15,7 @@ function CalculateIntermediateVars(factors) {
 
 	/*LM:   Y+a2*r=c2	*/
 	obj.a2 = -1 * factors["k4"] / factors["k3"];
-	obj.c2 = factors["MP"] / factors["k3"];
+	obj.c2 = factors["MP"] / (factors["k3"] * factors["P"]);
 
 	/*BP:   Y+a3*r+b3*e=c3	*/
 	obj.a3 = -1 * factors["m"] / factors["MPM"];

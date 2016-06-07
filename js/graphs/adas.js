@@ -12,7 +12,7 @@ adas.position.column = 1;
 
 adas.title.text = "AD-AS";
 adas.xAxis.title.text = "Y";
-adas.yAxis.title.text = "r";
+adas.yAxis.title.text = "P";
 
 
 var ad = new Line();
