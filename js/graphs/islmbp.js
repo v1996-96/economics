@@ -19,7 +19,7 @@ islmbp.yAxis.min = 0;
 
 islmbp.seriesSettings.min = 0;
 
-islmbp.seriesSettings.max = 100;
+islmbp.seriesSettings.max = 1000;
 
 islmbp.yAxis.interval = 1;
 islmbp.seriesSettings.interval = 5;	

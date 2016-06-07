@@ -46,19 +46,19 @@ App.onBuild(function (params) {
 	}
 	
 		//AKHTUNG!! CHECK THIS CODE 7 TIMES!!!
-	if(params.capitalMobility == 'null'){
+	if(params.capitalMobility == 'null' && params.ecomonicsType == 'open'){
 		factors.m = 0.00001;
 	}
 
-	if(params.capitalMobility == 'low'){
+	if(params.capitalMobility == 'low' && params.ecomonicsType == 'open'){
 		factors.m = 5;
 	}
 
-	if (params.capitalMobility == 'high'){
+	if (params.capitalMobility == 'high' && params.ecomonicsType == 'open'){
 		//Nothing to do here
 	}
 
-	if(params.capitalMobility == 'absolute'){
+	if(params.capitalMobility == 'absolute' && params.ecomonicsType == 'open'){
 		factors.m = 999999;
 	}
 
