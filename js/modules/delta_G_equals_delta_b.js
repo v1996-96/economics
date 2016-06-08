@@ -11,10 +11,32 @@ g_equals_b.action = function (graphs) {
 
 /* IS copy
 --------------------------------------------------------*/
-	CapturePreviousLineState(
+		CapturePreviousLineState(
 		graphs, "islmbp", "is", "prevIs",
 		{ name : "Первоначальный IS" } );
+		CapturePreviousLineState(
+		graphs, "islmbp", "lm", "prevLm",
+		{ name : "Первоначальный LM" } );
+
+		CapturePreviousLineState(
+		graphs, "islmbp", "bp", "prevBp",
+		{ name : "Первоначальный Bp" } );
+				CapturePreviousLineState(
+		graphs, "adas", "ad", "prevAd",
+		{ name : "Первоначальный AD" } );
+		CapturePreviousLineState(
+		graphs, "moneyMarket", "moneySupply", "prevMoneySupply",
+		{ name : "Первоначальный moneySupply" } );
+			CapturePreviousLineState(
+		graphs, "moneyMarket", "moneyDemand", "prevMoneyDemand",
+		{ name : "Первоначальный moneyDemand" } );
 	
+					CapturePreviousLineState(
+		graphs, "keynesCross", "factExpenditure", "prevfactExpenditure",
+		{ name : "Первоначальный factExpenditure" } );
+					CapturePreviousLineState(
+		graphs, "keynesCross", "plannedExpenditure", "prevplannedExpenditure",
+		{ name : "Первоначальный plannedExpenditure" } );	
 
 	/* Move line to new position */
 	var currentG = App.factors.current.get("G");

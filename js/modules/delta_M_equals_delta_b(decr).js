@@ -23,8 +23,14 @@ var m_equals_b_decr = new Module();
 		graphs, "islmbp", "bp", "prevBp",
 		{ name : "Первоначальный Bp" } );
 				CapturePreviousLineState(
-		graphs, "islmbp", "bp", "prevBp",
-		{ name : "Первоначальный Bp" } );
+		graphs, "adas", "ad", "prevAd",
+		{ name : "Первоначальный AD" } );
+		CapturePreviousLineState(
+		graphs, "moneyMarket", "moneySupply", "prevMoneySupply",
+		{ name : "Первоначальный moneySupply" } );
+			CapturePreviousLineState(
+		graphs, "moneyMarket", "moneyDemand", "prevMoneyDemand",
+		{ name : "Первоначальный moneyDemand" } );
 	/* Move line to new position */
 	var currentM = App.factors.current.get("M");
 	App.factors.current.set("M", currentM - 150);
