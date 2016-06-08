@@ -90,9 +90,10 @@ var bp = new Line();
 		var factors = App.factors.getAll();
 
 		if (params.exchangeRate == "fixed") {
-			var result = CalculateIntermediateVars(factors);
-
-			this.params.currency = result.currency;
+			if (this.params.currency == null) {
+				var result = CalculateIntermediateVars(factors);
+				this.params.currency = result.currency;
+			}
 		} else {
 			this.params.currency = null;
 		}
