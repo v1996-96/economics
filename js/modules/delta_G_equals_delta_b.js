@@ -40,7 +40,7 @@ g_equals_b.action = function (graphs) {
 
 	/* Move line to new position */
 	var currentG = App.factors.current.get("G");
-	App.factors.current.set("G", currentG - 150);
+	App.factors.current.set("G", currentG - 200);
 
 }
 

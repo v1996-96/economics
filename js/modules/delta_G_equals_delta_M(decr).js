@@ -41,9 +41,9 @@ g_equals_m_decr.action = function (graphs) {
 
 	/* Move line to new position */
 	var currentG = App.factors.current.get("G");
-	App.factors.current.set("G", currentG - 150);
+	App.factors.current.set("G", currentG - 200);
 	var currentM = App.factors.current.get("M");
-	App.factors.current.set("M", currentM - 150);
+	App.factors.current.set("M", currentM - 200);
 
 }
 
