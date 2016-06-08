@@ -17,15 +17,28 @@ foreignInvestments.resetAxisIntervals = function () {
 
 var nfl = new Line();
 	nfl.id = "nfl";
-	nfl.equation = function(x, factors){
-		var result = CalculateIntermediateVars(factors);
-		return factors["rr"]-(factors["Ex"]-factors["Im0"]-factors["MPM"]*result.income-
+	nfl.equation = function(x, factors, params){
+		if (params.ecomonicsType == "opened") {
+		    var result = CalculateIntermediateVars(factors);		
+		    return factors["rr"]-(factors["Ex"]-factors["Im0"]-factors["MPM"]*result.income-
 			factors["k2"]* result.currency)/factors["m"];
+	    } else {
+	    	return null;
+	    }
 	};
 	nfl.settings = {
 		name: "Foreign Investments",
 		color: "red"
 	};
+
+	nfl.beforeConvert = function(){
+		var params = App.params.get();
+		if (params.ecomonicsType == "closed") {
+			this.visible = false;
+		} else {
+			this.visible = true;
+		}
+	}
 
 	foreignInvestments.linesFactory.add( nfl );
 

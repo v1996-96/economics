@@ -32,11 +32,15 @@ exchangeMarket.resetAxisIntervals = function() {
 
 var nfl = new Line();
 	nfl.id = "nfl";
-	nfl.equation = function(x, factors){
-		var result = CalculateIntermediateVars(factors);
-		var currentNFL = factors["Ex"]-factors["Im0"]-factors["MPM"]*result.income-
+	nfl.equation = function(x, factors, params){
+		if (params.ecomonicsType == "opened") {
+		    var result = CalculateIntermediateVars(factors);		
+		    var currentNFL = factors["Ex"]-factors["Im0"]-factors["MPM"]*result.income-
 							factors["k2"]*result.currency;
-		return currentNFL+(x-currentNFL)*10000000;
+		    return currentNFL+(x-currentNFL)*10000000;
+	    } else {
+		return null;
+	    }
 	};
 	nfl.settings = {
 		name: "Foreign Investments",
@@ -48,14 +52,36 @@ var nfl = new Line();
 
 var nx = new Line();
 	nx.id = "nx";
-	nx.equation = function(x, factors){
-		var result = CalculateIntermediateVars(factors);
-		return (factors["Ex"]-factors["Im0"]-factors["MPM"]*result.income-x)/factors["k2"];
+	nx.equation = function(x, factors, params){
+		if (params.ecomonicsType == "opened") {
+			var result = CalculateIntermediateVars(factors);
+			return (factors["Ex"]-factors["Im0"]-factors["MPM"]*result.income-x)/factors["k2"];
+		} else {
+			return null;
+		}
 	};
 	nx.settings = {
 		name: "Net Export",
 		color: "green"
 	};
+
+	nx.beforeConvert = function(){
+		var params = App.params.get();
+		if (params.ecomonicsType == "closed") {
+			this.visible = false;
+		} else {
+			this.visible = true;
+		}
+	}
+
+	nfl.beforeConvert = function(){
+		var params = App.params.get();
+		if (params.ecomonicsType == "closed") {
+			this.visible = false;
+		} else {
+			this.visible = true;
+		}
+	}
 
 	exchangeMarket.linesFactory.add( nx );
 
