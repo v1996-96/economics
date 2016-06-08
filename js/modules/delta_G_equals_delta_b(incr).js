@@ -1,13 +1,13 @@
 
 
-var g_equals_b = new Module();
+var g_equals_b_incr = new Module();
 
-g_equals_b.id = "delta_G_equals_delta_b";
+g_equals_b_incr.id = "delta_G_equals_delta_b_incr";
 
-g_equals_b.title = unescape("%u0394") + "G = "+ unescape("%u0394") +"b (incr)";
-g_equals_b.description = "Sample description";
+g_equals_b_incr.title = unescape("%u0394") + "G = "+ unescape("%u0394") +"b (incr)";
+g_equals_b_incr.description = "Sample description";
 
-g_equals_b.action = function (graphs) {
+g_equals_b_incr.action = function (graphs) {
 
 /* IS copy
 --------------------------------------------------------*/
@@ -51,4 +51,4 @@ g_equals_b.action = function (graphs) {
 
 }
 
-App.module.add( g_equals_b );
+App.module.add( g_equals_b_incr );
