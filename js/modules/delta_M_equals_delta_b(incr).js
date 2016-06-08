@@ -12,7 +12,7 @@ m_equals_b_incr.action = function (graphs) {
 
 /* IS copy
 --------------------------------------------------------*/
-	CapturePreviousLineState(
+CapturePreviousLineState(
 		graphs, "islmbp", "is", "prevIs",
 		{ name : "Первоначальный IS" } );
 		CapturePreviousLineState(
@@ -37,7 +37,7 @@ m_equals_b_incr.action = function (graphs) {
 		{ name : "Первоначальный factExpenditure" } );
 					CapturePreviousLineState(
 		graphs, "keynesCross", "plannedExpenditure", "prevplannedExpenditure",
-		{ name : "Первоначальный plannedExpenditure" } );
+		{ name : "Первоначальный plannedExpenditure" } );	
 
 	/* Move line to new position */
 	var currentM = App.factors.current.get("M");

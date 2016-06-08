@@ -31,7 +31,15 @@ var m_equals_b_decr = new Module();
 			CapturePreviousLineState(
 		graphs, "moneyMarket", "moneyDemand", "prevMoneyDemand",
 		{ name : "Первоначальный moneyDemand" } );
-	/* Move line to new position */
+	
+					CapturePreviousLineState(
+		graphs, "keynesCross", "factExpenditure", "prevfactExpenditure",
+		{ name : "Первоначальный factExpenditure" } );
+					CapturePreviousLineState(
+		graphs, "keynesCross", "plannedExpenditure", "prevplannedExpenditure",
+		{ name : "Первоначальный plannedExpenditure" } );	
+		
+			/* Move line to new position */
 	var currentM = App.factors.current.get("M");
 	App.factors.current.set("M", currentM - 150);
 
