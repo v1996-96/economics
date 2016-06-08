@@ -218,6 +218,8 @@ var App = (function ($) {
 	/* Graphs factory */
 	this.graphsFactory = {
 
+		legendEnabled : false,
+
 		/**
 		 * Renders graphs in browser
 		 */
@@ -266,6 +268,15 @@ var App = (function ($) {
 
 			var forseRerender = forseRerender || false;
 
+			var that = this;
+
+			Highcharts.setOptions({
+				legend : {
+					enabled : that.legendEnabled
+				}
+			});
+			console.log(that.legendEnabled);
+
 			this.refreshGraphs();
 
 			for (var i = 0; i < parent.graphs.length; i++) {
@@ -275,6 +286,9 @@ var App = (function ($) {
 
 				if (forseRerender || 
 					!parent.useful.inArray( parent.graphs[i].id, parent.listInitialized )) {
+
+					parent.graphs[i].legend.enabled = this.legendEnabled;
+
 					$( selector ).highcharts( parent.graphs[i] );
 					parent.listInitialized.push( parent.graphs[i].id );
 				} else {
@@ -541,6 +555,7 @@ var App = (function ($) {
 			this.handlers.parametersHandler();
 			this.handlers.collapseParametersHandler();
 			this.handlers.buildHandler();
+			this.handlers.toggleLegendToggle();
 		},
 
 
@@ -789,6 +804,22 @@ var App = (function ($) {
 		handlers : {
 			/* Link to parent object */
 			interface : null,
+
+			toggleLegendToggle : function () {
+				$("#legendToggle").on("click", function(e) {
+					e.preventDefault();
+
+					if ($(this).find("i").text() == "format_list_bulleted") {
+						$(this).find("i").text("playlist_add_check");
+						parent.graphsFactory.legendEnabled = true;
+					} else {
+						$(this).find("i").text("format_list_bulleted");
+						parent.graphsFactory.legendEnabled = false;
+					}
+
+					parent.graphsFactory.render(true);
+				});
+			},
 
 			/**
 			 * Rerender handler

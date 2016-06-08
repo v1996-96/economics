@@ -35,14 +35,11 @@ function CalculateIntermediateVars(factors) {
 	if (params !== null) {
 		if (params.exchangeRate == "fixed") {
 			if (globalCurrency == null) {
-				console.log("action:  set new currency");
 				globalCurrency = obj.currency;
 			} else {
-				console.log("action: return saved currency");
 				obj.currency = globalCurrency;
 			}
 		} else {
-			console.log("action: reset currency");
 			globalCurrency = null;
 		}
 	}

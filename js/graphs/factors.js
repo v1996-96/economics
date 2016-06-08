@@ -5,7 +5,6 @@
 
 App.onBuild(function (params) {
 	
-	console.log( params );
 
 	// Define default values
 	var factors = {
