@@ -38,11 +38,16 @@ function CalculateIntermediateVars(factors) {
 				App.factors.setGlobalCurrency( obj.currency );
 			} else {
 				obj.currency = globalCurrency;
+				obj.rate = (((obj.c1 * obj.MLR - factors.k2 * obj.currency)*factors.MPM - obj.MLR*(obj.c3 * factors.MPM - factors.k2*obj.currency))/(obj.MLR * factors.m + factors.MPM * factors.k1));
+				obj.income = (obj.c1 * obj.MLR - factors.k1*obj.rate - factors.k2* obj.currency)/obj.MLR;
+
 			}
 		} else {
 			globalCurrency = null;
 		}
 	}
+
+
 
 
 

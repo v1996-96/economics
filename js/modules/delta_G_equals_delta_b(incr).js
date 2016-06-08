@@ -55,9 +55,18 @@ g_equals_b_incr.action = function (graphs) {
 	
 
 	/* Move line to new position */
-	var currentG = App.factors.current.get("G");
-	App.factors.current.set("G", currentG + 150);
+	var deltaG = 150;
 
+	var currentG = App.factors.current.get("G");
+	App.factors.current.set("G", currentG + deltaG);
+
+	var params = App.params.get();
+
+	if (params.exchangeRate == 'fixed') {
+		var factors = App.factors.getAll();
+		var result = CalculateIntermediateVars(factors);
+		App.factors.current.set("M", factors.P*(factors.k3*result.income - factors.k4* result.rate));
+	}
 }
 
 App.module.add( g_equals_b_incr );

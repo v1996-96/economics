@@ -40,10 +40,21 @@ g_equals_m_incr.action = function (graphs) {
 		{ name : "Первоначальный plannedExpenditure" } );	
 
 	/* Move line to new position */
+	var deltaG = 150;
+	var deltaM = 150;
+
 	var currentG = App.factors.current.get("G");
-	App.factors.current.set("G", currentG + 150);
+	App.factors.current.set("G", currentG + deltaG);
 	var currentM = App.factors.current.get("M");
-	App.factors.current.set("M", currentM + 150);
+	App.factors.current.set("M", currentM + deltaM);
+
+	var params = App.params.get();
+
+	if (params.exchangeRate == 'fixed') {
+		var factors = App.factors.getAll();
+		var result = CalculateIntermediateVars(factors);
+		App.factors.current.set("M", factors.P*(factors.k3*result.income - factors.k4* result.rate));
+	}
 
 }
 

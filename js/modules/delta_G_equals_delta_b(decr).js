@@ -60,13 +60,13 @@ g_equals_b_decr.action = function (graphs) {
 	var currentG = App.factors.current.get("G");
 	App.factors.current.set("G", currentG + deltaG);
 
-	// var params = App.params.get();
+	var params = App.params.get();
 
-	// if (params.exchangeRate == 'fixed') {
-	// 	var factors = App.factors.getAll();
-	// 	var result = CalculateIntermediateVars(factors);
-	// 	App.factors.current.set("M", factors.M + deltaG * factors.P * factors.k3 / result.MLR);
-	// }
+	if (params.exchangeRate == 'fixed') {
+		var factors = App.factors.getAll();
+		var result = CalculateIntermediateVars(factors);
+		App.factors.current.set("M", factors.P*(factors.k3*result.income - factors.k4* result.rate));
+	}
 
 }
 

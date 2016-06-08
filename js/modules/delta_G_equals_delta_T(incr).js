@@ -54,10 +54,24 @@ CapturePreviousLineState(
 	
 
 	/* Move line to new position */
+
+
+		var deltaG = 200;
+		var deltaT = 200;
+
 	var currentG = App.factors.current.get("G");
-	App.factors.current.set("G", currentG + 200);
+	App.factors.current.set("G", currentG + deltaG);
 	var currentT = App.factors.current.get("T0");
-	App.factors.current.set("T0", currentT + 200);
+	App.factors.current.set("T0", currentT + deltaT);
+
+
+	var params = App.params.get();
+
+	if (params.exchangeRate == 'fixed') {
+		var factors = App.factors.getAll();
+		var result = CalculateIntermediateVars(factors);
+		App.factors.current.set("M", factors.P*(factors.k3*result.income - factors.k4* result.rate));
+	}
 
 }
 
