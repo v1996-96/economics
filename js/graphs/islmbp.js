@@ -80,11 +80,41 @@ var lm = new Line();
 
 var bp = new Line();
 	bp.id = "bp";
+	var bpLocalParams = {
+		currency : null
+	}
+	bp.params = bpLocalParams;
+	bp.defaultParams = bpLocalParams;
+	bp.beforeConvert = function () {
+		var params = App.params.get();
+		var factors = App.factors.getAll();
+
+		if (params.exchangeRate == "fixed") {
+			var result = CalculateIntermediateVars(factors);
+
+			this.params.currency = result.currency;
+		} else {
+			this.params.currency = null;
+		}
+
+		if (params.ecomonicsType == "closed") {
+			this.visible = false;
+		} else {
+			this.visible = true;
+		}
+	}
 	bp.equation = function(x, factors, params){
 		var result = CalculateIntermediateVars(factors);
 
 		if (params.ecomonicsType == "opened") {
-			return -1*x/result.a3-result.b3*result.currency/result.a3+result.c3/result.a3;
+
+			if (params.exchangeRate == "fixed" && 
+				this.currency !== null) {
+				return -1*x/result.a3-result.b3*this.currency/result.a3+result.c3/result.a3;
+			} else {
+				return -1*x/result.a3-result.b3*result.currency/result.a3+result.c3/result.a3;
+			}
+
 		} else {
 			return null; // Hide it!
 		}
@@ -94,15 +124,6 @@ var bp = new Line();
 		name: "BP",
 		color: "blue"
 	};
-
-	bp.beforeConvert = function(){
-		var params = App.params.get();
-		if (params.ecomonicsType == "closed") {
-			this.visible = false;
-		} else {
-			this.visible = true;
-		}
-	}
 
 	islmbp.linesFactory.add( bp );
 

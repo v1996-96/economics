@@ -85,7 +85,7 @@ var App = (function ($) {
 	this.params = {
 		ecomonicsType : null, 	// opened | closed
 		exchangeRate : null,  	// fixed | fluid
-		economicsSize : null, 	// small | big
+		// economicsSize : null, 	// small | big
 		capitalMobility : null, // absolute | high | low | null
 		prices : null 			// fixed | fluid
 		//period : null  			// long_run | short_run
@@ -103,7 +103,7 @@ var App = (function ($) {
 			// Check object structure
 			if (typeof params.ecomonicsType == 'undefined' &&
 				typeof params.exchangeRate == 'undefined' &&
-				typeof params.economicsSize == 'undefined' &&
+				// typeof params.economicsSize == 'undefined' &&
 				typeof params.capitalMobility == 'undefined' &&
 				typeof params.prices == 'undefined' 
 				/*&& typeof params.period == 'undefined'*/) 
@@ -117,15 +117,15 @@ var App = (function ($) {
 
 			if (params.ecomonicsType == "opened") {
 				if (params.exchangeRate == null ||
-					params.economicsSize == null ||
+					// params.economicsSize == null ||
 					params.capitalMobility == null) 
 					throw { message: "Не все параметры определены. Не могу построить ((" };
 
 				if (!parent.useful.inArray(params.exchangeRate, ["fixed", "fluid"])) 
 					throw { message: "Непредвиденная ошибка" };	
 
-				if (!parent.useful.inArray(params.economicsSize, ["small", "big"])) 
-					throw { message: "Непредвиденная ошибка" };	
+				// if (!parent.useful.inArray(params.economicsSize, ["small", "big"])) 
+				// 	throw { message: "Непредвиденная ошибка" };	
 
 				if (!parent.useful.inArray(params.capitalMobility, ["absolute", "high", "low", "null"])) 
 					throw { message: "Непредвиденная ошибка" };	
