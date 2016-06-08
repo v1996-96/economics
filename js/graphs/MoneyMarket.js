@@ -12,10 +12,16 @@ moneyMarket.yAxis.title.text = "r";
 moneyMarket.resetAxisIntervals = function() {
 	var factors = App.factors.getAll();
 	var result = CalculateIntermediateVars(factors);
+	var params = App.params.get();
 	this.seriesSettings.max = 2* (factors.M / factors.P);
 	this.seriesSettings.min=0;
 	this.yAxis.min=0;
-	this.yAxis.max=(result.income*factors["k3"]/factors["k4"])*1.1; // 1.1 - coef for top of yMax 
+	if (params.ecomonicsType == "closed") {
+		this.yAxis.max=(result.ClosedIncome*factors["k3"]/factors["k4"])*1.1; // 1.1 - coef for top of yMax 
+	} else {
+		this.yAxis.max=(result.income*factors["k3"]/factors["k4"])*1.1; // 1.1 - coef for top of yMax 
+	}
+	
 
 	this.seriesSettings.interval = 
 		Math.abs(this.seriesSettings.max - this.seriesSettings.min) / this.defaultPointsCount;
@@ -37,9 +43,13 @@ var moneySupply = new Line();
 
 var moneyDemand = new Line();
 	moneyDemand.id = "moneyDemand";
-	moneyDemand.equation = function(x, factors){
+	moneyDemand.equation = function(x, factors, params){
 		var result = CalculateIntermediateVars(factors);
+		if (params.ecomonicsType == "closed") {
 		return  result.ClosedIncome*factors["k3"]/factors["k4"]-x/factors["k4"];
+	} else {
+		return  result.income*factors["k3"]/factors["k4"]-x/factors["k4"];
+	}
 	};
 	moneyDemand.settings = {
 		name: "Money Demand",
