@@ -91,8 +91,8 @@ var SRAS = new Line();
 		else
 		{
 			console.log(2);
-			return factors.SRAS * x + (factors.M * result.ClosedIr / (factors.k3 * result.income * result.ClosedIr - result.ClosedA* factors.k4 + result.ClosedMLR * result.income * factors.k4))
-			 - factors.SRAS * result.income;
+			return factors.SRAS * x + (factors.M * result.ClosedIr / (factors.k3 * result.ClosedIncome * result.ClosedIr - result.ClosedA* factors.k4 + result.ClosedMLR * result.ClosedIncome * factors.k4))
+			 - factors.SRAS * result.ClosedIncome;
 
 		}
 	};
