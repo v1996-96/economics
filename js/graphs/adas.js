@@ -72,7 +72,7 @@ var LRAS = new Line();
 
 
 // Only these lines will remain between module calls
-adas.defaultLines = ["ad", "as"];
+adas.defaultLines = ["ad", "LRAS"];
 
 // Initialize graph
 App.graph.add( adas );
