@@ -10,32 +10,21 @@ var m_equals_b_decr = new Module();
  m_equals_b_decr.action = function (graphs) {
 
 
-	/** Action sequence **/
-	// 1. Get chart object
-	var islmbp = graphs.get("islmbp");
-	if (islmbp == null) {
-		App.message.show("Error", "graph not found", "error");
-		return;
-	}
+	/* IS copy
+--------------------------------------------------------*/
+	CapturePreviousLineState(
+		graphs, "islmbp", "is", "prevIs",
+		{ name : "Первоначальный IS" } );
+		CapturePreviousLineState(
+		graphs, "islmbp", "lm", "prevLm",
+		{ name : "Первоначальный LM" } );
 
-	// 2. Get necessary line
-	var is = islmbp.linesFactory.get("is");
-
-	// 3. Create snapshot of a line
-	var isPrev = is.snapshot();
-
-	// 4. Set new settings for copied line
-	isPrev.id = "isPrev";
-	isPrev.settings = {
-		"name" : "Первоначальный IS",
-		"color" : "blue",
-		"lineWidth" : 1
-	};
-
-	// 5. Add line to chart
-	islmbp.linesFactory.add( isPrev );
-	
-
+		CapturePreviousLineState(
+		graphs, "islmbp", "bp", "prevBp",
+		{ name : "Первоначальный Bp" } );
+				CapturePreviousLineState(
+		graphs, "islmbp", "bp", "prevBp",
+		{ name : "Первоначальный Bp" } );
 	/* Move line to new position */
 	var currentM = App.factors.current.get("M");
 	App.factors.current.set("M", currentM - 150);
