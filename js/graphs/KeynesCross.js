@@ -12,8 +12,14 @@ keynesCross.yAxis.title.text = "E";
 keynesCross.resetAxisIntervals = function() {
 	var factors = App.factors.getAll();
 	var result = CalculateIntermediateVars(factors);
-	this.seriesSettings.max = 2* result.income;
-	this.yAxis.max = 2 * result.income;
+	var params = App.params.get();
+	if (params.ecomonicsType == "opened") {
+	   this.seriesSettings.max = 2* result.income;
+	   this.yAxis.max = 2 * result.income;
+    } else {
+	   this.seriesSettings.max = 2* result.ClosedIncome;
+	   this.yAxis.max = 2 * result.ClosedIncome;
+    }
 
 	this.seriesSettings.interval = 
 		Math.abs(this.seriesSettings.max - this.seriesSettings.min) / this.defaultPointsCount;
@@ -34,11 +40,16 @@ var plannedExpenditure = new Line();
 
 var factExpenditure = new Line();
 	factExpenditure.id = "factExpenditure";
-	factExpenditure.equation = function(x, factors){
+	factExpenditure.equation = function(x, factors, params){
 		var result = CalculateIntermediateVars(factors);
-		return (factors["C0"]+factors["MPC"]*(x*(1-factors["t"])-factors["T0"]))
-		+(factors["I0"]-factors["k1"]*result.rate)+factors["G"]+
-		(factors["Ex"]-factors["Im0"]-factors["MPM"]*x-factors["k2"]*result.currency);
+		if (params.ecomonicsType == "opened") {
+		   return (factors["C0"]+factors["MPC"]*(x*(1-factors["t"])-factors["T0"]))
+		   +(factors["I0"]-factors["k1"]*result.rate)+factors["G"]+
+		   (factors["Ex"]-factors["Im0"]-factors["MPM"]*x-factors["k2"]*result.currency);
+	    } else {
+	    	return (factors["C0"]+factors["MPC"]*(x*(1-factors["t"])-factors["T0"]))
+		   +(factors["I0"]-factors["k1"]*result.ClosedRate)+factors["G"];
+	    }
 	};
 	factExpenditure.settings = {
 		name: "Fact Expenditure",

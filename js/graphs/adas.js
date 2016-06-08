@@ -18,7 +18,7 @@ adas.yAxis.title.text = "P";
 adas.resetAxisIntervals = function() {
 	var factors = App.factors.getAll();
 	var result = CalculateIntermediateVars(factors);
-	// this.seriesSettings.max = result.income * 2;
+	this.seriesSettings.max = result.ClosedIncome * 2;
 	// this.yAxis.max = 0.5; 
 
 	this.seriesSettings.interval = 
@@ -27,9 +27,13 @@ adas.resetAxisIntervals = function() {
 
 var ad = new Line();
 	ad.id = "ad";
-	ad.equation = function(x, factors){
+	ad.equation = function(x, factors, params){
 		var result = CalculateIntermediateVars(factors);
-		return factors.M/((factors.k3*x - factors.k4 * ((x*result.MLR - result.c1*result.MLR + (-factors.k2* x + factors.Ex - factors.Im0+factors.Ka0 + factors.m*(result.rate - factors.rr)))/factors.k1))); 
+		if (params.ecomonicsType == "opened") {
+		    return factors.M/((factors.k3 * x - factors.k4 * ((x*result.MLR - result.c1*result.MLR + (-factors.k2* x + factors.Ex - factors.Im0+factors.Ka0 + factors.m*(result.rate - factors.rr)))/factors.k1))); 
+	    } else {
+	    	return factors.M * result.ClosedIr / (factors.k3 * x * result.ClosedIr - result.ClosedA* factors.k4 + result.ClosedMLR * x * factors.k4)
+	    }
 		// не очень работает, но хоть что-то
 
 		// Совсем не очень, хотя по идее должен лучше   //-(factors.M/((x*(result.MLR - factors.k2) - (result.c1 * result.MLR) + factors.Ex - factors.Im0 + factors.Ka0 - factors.m*factors.rr) * factors.k4 + factors.k3*x));

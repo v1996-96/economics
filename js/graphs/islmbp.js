@@ -86,7 +86,7 @@ var bp = new Line();
 		if (params.ecomonicsType == "opened") {
 			return -1*x/result.a3-result.b3*result.currency/result.a3+result.c3/result.a3;
 		} else {
-			return x; // Hide it!
+			return null; // Hide it!
 		}
 
 	};
