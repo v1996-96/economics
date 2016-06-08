@@ -413,8 +413,6 @@ var App = (function ($) {
 		 * Refresh series data on all graphs
 		 */
 		refreshGraphs : function() {
-			parent.globalCurrency = null;
-
 			for (var i = 0; i < parent.graphs.length; i++) {
 				parent.graphs[i].linesFactory.convertAll();
 			}
@@ -924,6 +922,9 @@ var App = (function ($) {
 						// Run graphs plugins
 						TweenLite.delayedCall((1 + delay), function(){
 							interface.actions.scrollTo( $("#graphsSection"), 15 );
+
+							parent.globalCurrency = null;
+							
 							parent.graphsFactory.render();
 						});
 
