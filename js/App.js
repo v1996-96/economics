@@ -146,6 +146,7 @@ var App = (function ($) {
 	/* Common equations coefficients */
 	this.defaultFactors = {};
 	this.factors = {};
+	this.globalCurrency = null;
 
 	/* Factors factory */
 	this.factorsFactory = {
@@ -275,7 +276,6 @@ var App = (function ($) {
 					enabled : that.legendEnabled
 				}
 			});
-			console.log(that.legendEnabled);
 
 			this.refreshGraphs();
 
@@ -413,6 +413,8 @@ var App = (function ($) {
 		 * Refresh series data on all graphs
 		 */
 		refreshGraphs : function() {
+			parent.globalCurrency = null;
+
 			for (var i = 0; i < parent.graphs.length; i++) {
 				parent.graphs[i].linesFactory.convertAll();
 			}
@@ -1035,6 +1037,14 @@ var App = (function ($) {
 
 			getAll : function() {
 				return $.extend(true, {}, parent.factors);
+			},
+
+			getGlobalCurrency : function() {
+				return parent.globalCurrency;
+			},
+
+			setGlobalCurrency : function(currency) {
+				parent.globalCurrency = currency;
 			}
 		},
 

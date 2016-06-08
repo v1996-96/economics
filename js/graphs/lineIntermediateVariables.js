@@ -2,8 +2,6 @@
 *	Line Intermediate variables
 */
 
-var globalCurrency = null;
-
 function CalculateIntermediateVars(factors) {
 
 	var params = App.params.get();
@@ -32,10 +30,12 @@ function CalculateIntermediateVars(factors) {
 	obj.rate = ( obj.c2 - obj.c1 + obj.b1 * obj.currency ) / ( obj.a2 - obj.a1 );
 	obj.income = obj.c2 - obj.a2 * obj.rate;
 
+	var globalCurrency = App.factors.getGlobalCurrency();
+
 	if (params !== null) {
 		if (params.exchangeRate == "fixed") {
 			if (globalCurrency == null) {
-				globalCurrency = obj.currency;
+				App.factors.setGlobalCurrency( obj.currency );
 			} else {
 				obj.currency = globalCurrency;
 			}
