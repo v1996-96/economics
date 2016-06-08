@@ -255,14 +255,17 @@ var App = (function ($) {
 			}				
 
 			// Run highcharts plugin
-			this.run();
+			this.run(forseRerender);
 		},
 
 
 		/**
 		 * Runs highcharts plugin
 		 */
-		run : function() {
+		run : function(forseRerender) {
+
+			var forseRerender = forseRerender || false;
+
 			this.refreshGraphs();
 
 			for (var i = 0; i < parent.graphs.length; i++) {
@@ -270,7 +273,8 @@ var App = (function ($) {
 
 				if (!parent.useful.exists( selector )) continue;
 
-				if (!parent.useful.inArray( parent.graphs[i].id, parent.listInitialized )) {
+				if (forseRerender || 
+					!parent.useful.inArray( parent.graphs[i].id, parent.listInitialized )) {
 					$( selector ).highcharts( parent.graphs[i] );
 					parent.listInitialized.push( parent.graphs[i].id );
 				} else {
