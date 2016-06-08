@@ -42,7 +42,6 @@ var ad = new Line();
 		    }
 	    } 
 	    else {
-	    	
 	    	console.log( (result.ClosedA * factors.k4)/(factors.k3*factors.k1+result.MLR*factors.k4));
 			if (x <=   (result.ClosedA * factors.k4)/(factors.k3*factors.k1+result.MLR*factors.k4) )
 		    {
@@ -77,12 +76,35 @@ var LRAS = new Line();
 		name: "LRAS",
 		color: "green"
 	};
-
 	adas.linesFactory.add( LRAS );
+
+var SRAS = new Line();
+	SRAS.id = "SRAS";
+	SRAS.equation = function(x, factors){
+		var result = CalculateIntermediateVars(factors);
+
+		if (params.ecomonicsType == "opened") 
+		{
+			console.log(1);
+			return  factors.SRAS * x + (factors.M / ( factors.k3 * (result.income + result.a2*result.alpha ) )) - factors.SRAS * result.income;
+		} 
+		else
+		{
+			console.log(2);
+			return factors.SRAS * x + (factors.M * result.ClosedIr / (factors.k3 * result.income * result.ClosedIr - result.ClosedA* factors.k4 + result.ClosedMLR * result.income * factors.k4))
+			 - factors.SRAS * result.income;
+
+		}
+	};
+	SRAS.settings = {
+		name: "SRAS",
+		color: "blue"
+	};
+	adas.linesFactory.add( SRAS );
 
 
 // Only these lines will remain between module calls
-adas.defaultLines = ["ad", "LRAS"];
+adas.defaultLines = ["ad", "LRAS", "SRAS"];
 
 // Initialize graph
 App.graph.add( adas );
