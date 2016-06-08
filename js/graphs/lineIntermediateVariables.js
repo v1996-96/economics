@@ -2,7 +2,11 @@
 *	Line Intermediate variables
 */
 
+var globalCurrency = null;
+
 function CalculateIntermediateVars(factors) {
+
+	var params = App.params.get();
 
 	var obj = {};
 
@@ -27,6 +31,23 @@ function CalculateIntermediateVars(factors) {
 	obj.currency = ( (obj.c3-obj.c1) * (obj.a2-obj.a1) / (obj.a3-obj.a1) - (obj.c2-obj.c1) ) / ( (obj.b3-obj.b1) * (obj.a2-obj.a1) / (obj.a3-obj.a1) + obj.b1 );
 	obj.rate = ( obj.c2 - obj.c1 + obj.b1 * obj.currency ) / ( obj.a2 - obj.a1 );
 	obj.income = obj.c2 - obj.a2 * obj.rate;
+
+	if (params !== null) {
+		if (params.exchangeRate == "fixed") {
+			if (globalCurrency == null) {
+				console.log("action:  set new currency");
+				globalCurrency = obj.currency;
+			} else {
+				console.log("action: return saved currency");
+				obj.currency = globalCurrency;
+			}
+		} else {
+			console.log("action: reset currency");
+			globalCurrency = null;
+		}
+	}
+
+
 
 
 	/* Closed economics */

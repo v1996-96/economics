@@ -80,23 +80,8 @@ var lm = new Line();
 
 var bp = new Line();
 	bp.id = "bp";
-	var bpLocalParams = {
-		currency : null
-	}
-	bp.params = bpLocalParams;
-	bp.defaultParams = bpLocalParams;
 	bp.beforeConvert = function () {
 		var params = App.params.get();
-		var factors = App.factors.getAll();
-
-		if (params.exchangeRate == "fixed") {
-			if (this.params.currency == null) {
-				var result = CalculateIntermediateVars(factors);
-				this.params.currency = result.currency;
-			}
-		} else {
-			this.params.currency = null;
-		}
 
 		if (params.ecomonicsType == "closed") {
 			this.visible = false;
@@ -109,12 +94,7 @@ var bp = new Line();
 
 		if (params.ecomonicsType == "opened") {
 
-			if (params.exchangeRate == "fixed" && 
-				this.currency !== null) {
-				return -1*x/result.a3-result.b3*this.currency/result.a3+result.c3/result.a3;
-			} else {
-				return -1*x/result.a3-result.b3*result.currency/result.a3+result.c3/result.a3;
-			}
+			return -1*x/result.a3-result.b3*result.currency/result.a3+result.c3/result.a3;
 
 		} else {
 			return null; // Hide it!
