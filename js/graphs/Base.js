@@ -204,10 +204,11 @@ function Graph() {
 		dataset : function( equation, axisData, equationObj, factors ){
 			var equationObj = equationObj || window;
 			var factors = factors || App.factors.getAll();
+			var params = App.params.get();
 
 			var dataset = [];
 			for (var i = 0; i < axisData.length; i++) {
-				dataset.push( equation.call(equationObj, axisData[i], factors) );
+				dataset.push( equation.call(equationObj, axisData[i], factors, params) );
 			}
 			return dataset;
 		},

@@ -33,12 +33,15 @@ islmbp.resetAxisIntervals = function() {
 
 var is = new Line();
 	is.id = "is";
-	is.equation = function(x, factors){
+	is.equation = function(x, factors, params){
 		var result = CalculateIntermediateVars(factors);
-		return (-1*x) / result.a1 - result.b1*result.currency/result.a1 + result.c1/result.a1;
 
-		/* IS FOR CLOSED*/
-		// return (result.ClosedA - x * result.ClosedMLR)/ result.ClosedIr;
+		if (params.ecomonicsType == "opened") {
+			return (-1*x) / result.a1 - result.b1*result.currency/result.a1 + result.c1/result.a1;
+		} else {
+			return (result.ClosedA - x * result.ClosedMLR)/ result.ClosedIr;
+		}
+		
 	};
 	is.settings = {
 		name: "IS",

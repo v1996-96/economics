@@ -27,12 +27,6 @@ App.onBuild(function (params) {
 		rr : 10, // мировая ставка процента
 		Ka0 : 300, // автономный счет капитала
 		m : 20 // мобильность капитала
-
-
-
-
-
-		//
 	}
 
 	//There you change default values like this
