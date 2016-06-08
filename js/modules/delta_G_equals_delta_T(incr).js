@@ -16,6 +16,10 @@ g_equals_t_incr.action = function (graphs) {
 		{ name : "Первоначальный IS" } );
 
 
+CapturePreviousLineState(
+		graphs, "islmbp", "lm", "prevLm",
+		{ name : "Первоначальный LM" } );
+
 /* BP copy
 --------------------------------------------------------*/
 	CapturePreviousLineState(
@@ -35,6 +39,10 @@ g_equals_t_incr.action = function (graphs) {
 	CapturePreviousLineState(
 		graphs, "moneyMarket", "moneyDemand", "prevMoneyDemand",
 		{ name : "Первоначальный Md" } );
+
+			CapturePreviousLineState(
+		graphs, "moneyMarket", "moneySupply", "prevMoneySupply",
+		{ name : "Первоначальный moneySupply" } );
 
 
 /* factExpenditure copy

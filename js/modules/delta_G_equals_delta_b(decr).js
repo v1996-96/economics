@@ -16,6 +16,11 @@ g_equals_b_decr.action = function (graphs) {
 		{ name : "Первоначальный IS" } );
 
 
+	CapturePreviousLineState(
+		graphs, "islmbp", "lm", "prevLm",
+		{ name : "Первоначальный LM" } );
+
+
 /* BP copy
 --------------------------------------------------------*/
 	CapturePreviousLineState(
@@ -36,6 +41,10 @@ g_equals_b_decr.action = function (graphs) {
 		graphs, "moneyMarket", "moneyDemand", "prevMoneyDemand",
 		{ name : "Первоначальный Md" } );
 
+			CapturePreviousLineState(
+		graphs, "moneyMarket", "moneySupply", "prevMoneySupply",
+		{ name : "Первоначальный moneySupply" } );
+
 
 /* factExpenditure copy
 --------------------------------------------------------*/
@@ -46,8 +55,18 @@ g_equals_b_decr.action = function (graphs) {
 	
 
 	/* Move line to new position */
+	var deltaG = -150;
+
 	var currentG = App.factors.current.get("G");
-	App.factors.current.set("G", currentG - 150);
+	App.factors.current.set("G", currentG + deltaG);
+
+	// var params = App.params.get();
+
+	// if (params.exchangeRate == 'fixed') {
+	// 	var factors = App.factors.getAll();
+	// 	var result = CalculateIntermediateVars(factors);
+	// 	App.factors.current.set("M", factors.M + deltaG * factors.P * factors.k3 / result.MLR);
+	// }
 
 }
 
