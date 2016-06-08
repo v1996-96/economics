@@ -9,6 +9,7 @@ var App = (function ($) {
 
 
 	this.isInitialized = false;
+	this.listInitialized = [];
 
 
 	/* Useful JS stuff */
@@ -269,7 +270,76 @@ var App = (function ($) {
 
 				if (!parent.useful.exists( selector )) continue;
 
-				$( selector ).highcharts( parent.graphs[i] );
+				if (!parent.useful.inArray( parent.graphs[i].id, parent.listInitialized )) {
+					$( selector ).highcharts( parent.graphs[i] );
+					parent.listInitialized.push( parent.graphs[i].id );
+				} else {
+					var chart = $( selector ).highcharts();
+
+					var currentSeries = chart.series;
+					var newSeries = parent.graphs[i].series;
+
+					var deleted = currentSeries.map(function(el){
+						var found = false;
+						for (var k = 0; k < newSeries.length; k++) {
+							if (el.options.id == newSeries[k].id) {
+								found = true; break;
+							}
+						}
+						return found ? null : el;
+					});
+					var added = newSeries.map(function(el){
+						var found = false;
+						for (var k = 0; k < currentSeries.length; k++) {
+							if (el.id == currentSeries[k].options.id) {
+								found = true; break;
+							}
+						}
+						return found ? null : el;
+					});
+					var renewed = currentSeries.map(function(el){
+						var found = false;
+						var newData = null;
+						for (var k = 0; k < newSeries.length; k++) {
+							if (el.options.id == newSeries[k].id) {
+								found = true; 
+								newData = newSeries[k];
+								break;
+							}
+						}
+						return found ? {
+							series : el,
+							newSeries : newData
+						} : null;
+					});
+
+
+					for (var q = 0; q < deleted.length; q++) {
+						if (deleted[q] !== null)
+							deleted[q].remove( false );
+					}
+
+					for (var q = 0; q < added.length; q++) {
+						if (added[q] !== null)
+							chart.addSeries( added[q], false );
+					}
+
+					for (var q = 0; q < renewed.length; q++) {
+						if (renewed[q] !== null) {
+							renewed[q].series.setData( renewed[q].newSeries.data );
+							if (renewed[q].newSeries.visible) {
+								renewed[q].series.show();
+							} else {
+								renewed[q].series.hide();
+							}
+						}
+					}
+					
+					chart.yAxis[0].update( parent.graphs[i].yAxis );
+					chart.xAxis[0].update( parent.graphs[i].xAxis );
+
+					chart.redraw();
+				}
 			}
 		},
 

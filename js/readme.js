@@ -30,3 +30,17 @@
 	-: modules can change some factors in such way, when some lines will stay out of the graph
 	 */
 	
+
+
+/** How to hide line */
+	var lineObject = new Line();
+	/* ... */
+	lineObject.beforeConvert = function(){
+		var params = App.params.get();
+		if (params.ecomonicsType == "closed") {
+			this.visible = false;
+		} else {
+			this.visible = true;
+		}
+	}
+	/* ... */

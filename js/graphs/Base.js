@@ -19,6 +19,14 @@ function Line() {
 	this.params = {};
 
 
+	// Hide line or not
+	this.visible = true;
+
+
+	// Draw callback
+	this.beforeConvert = function() {}
+
+
 	// Line equation
 	this.equation = function (x, factors) { 
 		// this keyword gives access to params property (when it is calling)
@@ -348,12 +356,16 @@ function Graph() {
 		 * @param  {Line} line Line object
 		 */
 		convert : function( line ){
+			if (typeof line.beforeConvert == "function") 
+				line.beforeConvert.call( line );
+
 			var seriesData = parent.calculate.seriesForLine( line );
 
 			var series = {};
 			$.extend(series, line.settings);
 			series.data = seriesData;
 			series.id = line.id;
+			series.visible = line.visible;
 
 			parent.seriesFactory.add( series );
 		},
