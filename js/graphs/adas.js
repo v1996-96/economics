@@ -40,8 +40,18 @@ var ad = new Line();
 		    {
 		    	return factors.M / ( factors.k3 * (x + result.a2*result.alpha ) ); 
 		    }
-	    } else {
-	    	return factors.M * result.ClosedIr / (factors.k3 * x * result.ClosedIr - result.ClosedA* factors.k4 + result.ClosedMLR * x * factors.k4) //++
+	    } 
+	    else {
+	    	
+	    	console.log( (result.ClosedA * factors.k4)/(factors.k3*factors.k1+result.MLR*factors.k4));
+			if (x <=   (result.ClosedA * factors.k4)/(factors.k3*factors.k1+result.MLR*factors.k4) )
+		    {
+		    	return null
+		    }
+		    else
+		    {
+		    	return factors.M * result.ClosedIr / (factors.k3 * x * result.ClosedIr - result.ClosedA* factors.k4 + result.ClosedMLR * x * factors.k4); 
+		    }
 	    }
 		// не очень работает, но хоть что-то
 
