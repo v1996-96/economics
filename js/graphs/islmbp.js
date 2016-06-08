@@ -36,6 +36,9 @@ var is = new Line();
 	is.equation = function(x, factors){
 		var result = CalculateIntermediateVars(factors);
 		return (-1*x) / result.a1 - result.b1*result.currency/result.a1 + result.c1/result.a1;
+
+		/* IS FOR CLOSED*/
+		// return (result.ClosedA - x * result.ClosedMLR)/ result.ClosedIr;
 	};
 	is.settings = {
 		name: "IS",
@@ -50,6 +53,11 @@ var lm = new Line();
 	lm.equation = function(x, factors){
 		var result = CalculateIntermediateVars(factors);
 		return result.c2/result.a2-x/result.a2;
+
+		/* LM FOR CLOSED */
+		// return (factors.k3 * x - result.MsP)/factors.k4;
+
+
 	};
 	lm.settings = {
 		name: "LM",
@@ -64,6 +72,10 @@ var bp = new Line();
 	bp.equation = function(x, factors){
 		var result = CalculateIntermediateVars(factors);
 		return -1*x/result.a3-result.b3*result.currency/result.a3+result.c3/result.a3;
+
+		/* FOR CLOSED DELETE AND BETTER RETURN THIS!!! */
+		// return x;
+
 	};
 	bp.settings = {
 		name: "BP",
