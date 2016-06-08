@@ -33,7 +33,7 @@ function CalculateIntermediateVars(factors) {
 	/* IS for Closed  Y = (A -Ir*r)/MLR or r = (A - Y * MLR)/ Ir */
 	obj.ClosedMLR = 1 - (1-factors["t"]) *factors["MPC"]; // MLR for Closed economies
 	obj.ClosedA =  factors["C0"]-factors["MPC"]*factors["T0"]+factors["I0"]+factors["G"]; // Autonomous expenditures for Closed Economies
-	obj.ClosedIr = factors.k1;
+	obj.ClosedIr = factors.k1; //???
 
 	/* LM for Closed   Y = (MsP + k4 * r)/ k3  or r = (k3 * Y - MsP)/k4   */
 	obj.MsP = factors.M/factors.P; //  (Ms/P)
@@ -41,8 +41,11 @@ function CalculateIntermediateVars(factors) {
 
 	/* Closed solution */
 	obj.ClosedRate = (obj.ClosedA * factors.k3 - obj.ClosedMLR * obj.MsP)/(factors.k4*obj.ClosedMLR + obj.ClosedIr*factors.k3);
-	obj.ClosedIncome = (obj.ClosedA - obj.ClosedIr* obj.ClosedRate)/obj.ClosedMLR
+	obj.ClosedIncome = (obj.ClosedA - obj.ClosedIr* obj.ClosedRate)/obj.ClosedMLR;
 	
+	obj.alpha = ( (obj.b3-obj.b1)*(obj.a2-obj.a1)*(obj.c2-obj.c1) + obj.b1*(obj.c3-obj.c1)*(obj.a2-obj.a1) ) / 
+	( (obj.a2-obj.a1) * ( (obj.b3-obj.b1)*(obj.a2-obj.a1) + obj.b1*(obj.a3-obj.a1) ) );
+
 
 	return obj;
 }
