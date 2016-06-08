@@ -40,8 +40,18 @@ var m_equals_b_decr = new Module();
 		{ name : "Первоначальный plannedExpenditure" } );	
 		
 			/* Move line to new position */
+	var deltaM = -150;
+
 	var currentM = App.factors.current.get("M");
-	App.factors.current.set("M", currentM - 150);
+	App.factors.current.set("M", currentM + deltaM);
+
+	var params = App.params.get();
+
+	if (params.exchangeRate == 'fixed') {
+		var factors = App.factors.getAll();
+		var result = CalculateIntermediateVars(factors);
+		App.factors.current.set("M", factors.P*(factors.k3*result.income - factors.k4* result.rate));
+	}
 
 }
 
