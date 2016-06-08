@@ -41,7 +41,7 @@ CapturePreviousLineState(
 
 	/* Move line to new position */
 	var currentM = App.factors.current.get("M");
-	App.factors.current.set("M", currentM + 200);
+	App.factors.current.set("M", currentM + 150);
 
 }
 
