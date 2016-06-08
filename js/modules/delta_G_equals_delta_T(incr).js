@@ -47,9 +47,9 @@ g_equals_t_incr.action = function (graphs) {
 
 	/* Move line to new position */
 	var currentG = App.factors.current.get("G");
-	App.factors.current.set("G", currentG + 150);
+	App.factors.current.set("G", currentG + 200);
 	var currentT = App.factors.current.get("T0");
-	App.factors.current.set("T0", currentT + 150);
+	App.factors.current.set("T0", currentT + 200);
 
 }
 
