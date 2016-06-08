@@ -39,7 +39,7 @@ var moneyDemand = new Line();
 	moneyDemand.id = "moneyDemand";
 	moneyDemand.equation = function(x, factors){
 		var result = CalculateIntermediateVars(factors);
-		return  result.income*factors["k3"]/factors["k4"]-x/factors["k4"];
+		return  result.ClosedIncome*factors["k3"]/factors["k4"]-x/factors["k4"];
 	};
 	moneyDemand.settings = {
 		name: "Money Demand",

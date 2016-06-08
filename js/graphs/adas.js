@@ -18,8 +18,8 @@ adas.yAxis.title.text = "P";
 adas.resetAxisIntervals = function() {
 	var factors = App.factors.getAll();
 	var result = CalculateIntermediateVars(factors);
-	this.seriesSettings.max = result.income * 2;
-	this.yAxis.max = 0.5; 
+	// this.seriesSettings.max = result.income * 2;
+	// this.yAxis.max = 0.5; 
 
 	this.seriesSettings.interval = 
 		Math.abs(this.seriesSettings.max - this.seriesSettings.min) / this.defaultPointsCount;

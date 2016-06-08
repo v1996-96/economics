@@ -23,8 +23,15 @@ islmbp.seriesSettings.interval = 10;
 islmbp.resetAxisIntervals = function() {
 	var factors = App.factors.getAll();
 	var result = CalculateIntermediateVars(factors);
-	this.seriesSettings.max = 2* result.income;
-	this.yAxis.max = (result.income*factors["k3"]/factors["k4"])*1.1; 
+	var params = App.params.get();
+	if (params.ecomonicsType == "closed") {
+			this.seriesSettings.max = 2* result.ClosedIncome;
+			this.yAxis.max = (result.ClosedIncome*factors["k3"]/factors["k4"])*1.1;
+		} else {
+			this.seriesSettings.max = 2* result.income;
+	        this.yAxis.max = (result.income*factors["k3"]/factors["k4"])*1.1; 
+		}
+	
 
 	this.seriesSettings.interval = 
 		Math.abs(this.seriesSettings.max - this.seriesSettings.min) / this.defaultPointsCount;
@@ -53,13 +60,14 @@ var is = new Line();
 
 var lm = new Line();
 	lm.id = "lm";
-	lm.equation = function(x, factors){
+	lm.equation = function(x, factors, params){
 		var result = CalculateIntermediateVars(factors);
-		return result.c2/result.a2-x/result.a2;
 
-		/* LM FOR CLOSED */
-		// return (factors.k3 * x - result.MsP)/factors.k4;
-
+		if (params.ecomonicsType == "opened") {
+		    return result.c2/result.a2-x/result.a2;
+        } else {
+		    return (factors.k3 * x - result.MsP)/factors.k4;
+        }
 
 	};
 	lm.settings = {
@@ -72,18 +80,29 @@ var lm = new Line();
 
 var bp = new Line();
 	bp.id = "bp";
-	bp.equation = function(x, factors){
+	bp.equation = function(x, factors, params){
 		var result = CalculateIntermediateVars(factors);
-		return -1*x/result.a3-result.b3*result.currency/result.a3+result.c3/result.a3;
 
-		/* FOR CLOSED DELETE AND BETTER RETURN THIS!!! */
-		// return x;
+		if (params.ecomonicsType == "opened") {
+			return -1*x/result.a3-result.b3*result.currency/result.a3+result.c3/result.a3;
+		} else {
+			return x; // Hide it!
+		}
 
 	};
 	bp.settings = {
 		name: "BP",
 		color: "blue"
 	};
+
+	bp.beforeConvert = function(){
+		var params = App.params.get();
+		if (params.ecomonicsType == "closed") {
+			this.visible = false;
+		} else {
+			this.visible = true;
+		}
+	}
 
 	islmbp.linesFactory.add( bp );
 
