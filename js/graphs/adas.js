@@ -78,33 +78,33 @@ var LRAS = new Line();
 	};
 	adas.linesFactory.add( LRAS );
 
-var SRAS = new Line();
-	SRAS.id = "SRAS";
-	SRAS.equation = function(x, factors){
-		var result = CalculateIntermediateVars(factors);
+// var SRAS = new Line();
+// 	SRAS.id = "SRAS";
+// 	SRAS.equation = function(x, factors){
+// 		var result = CalculateIntermediateVars(factors);
 
-		if (params.ecomonicsType == "opened") 
-		{
-			console.log(1);
-			return  factors.SRAS * x + (factors.M / ( factors.k3 * (result.income + result.a2*result.alpha ) )) - factors.SRAS * result.income;
-		} 
-		else
-		{
-			console.log(2);
-			return factors.SRAS * x + (factors.M * result.ClosedIr / (factors.k3 * result.ClosedIncome * result.ClosedIr - result.ClosedA* factors.k4 + result.ClosedMLR * result.ClosedIncome * factors.k4))
-			 - factors.SRAS * result.ClosedIncome;
+// 		if (params.ecomonicsType == "opened") 
+// 		{
+// 			console.log(1);
+// 			return  factors.SRAS * x + (factors.M / ( factors.k3 * (result.income + result.a2*result.alpha ) )) - factors.SRAS * result.income;
+// 		} 
+// 		else
+// 		{
+// 			console.log(2);
+// 			return factors.SRAS * x + (factors.M * result.ClosedIr / (factors.k3 * result.ClosedIncome * result.ClosedIr - result.ClosedA* factors.k4 + result.ClosedMLR * result.ClosedIncome * factors.k4))
+// 			 - factors.SRAS * result.ClosedIncome;
 
-		}
-	};
-	SRAS.settings = {
-		name: "SRAS",
-		color: "blue"
-	};
-	adas.linesFactory.add( SRAS );
+// 		}
+// 	};
+// 	SRAS.settings = {
+// 		name: "SRAS",
+// 		color: "blue"
+// 	};
+// 	adas.linesFactory.add( SRAS );
 
 
 // Only these lines will remain between module calls
-adas.defaultLines = ["ad", "LRAS", "SRAS"];
+adas.defaultLines = ["ad", "LRAS"/*, "SRAS"*/];
 
 // Initialize graph
 App.graph.add( adas );
